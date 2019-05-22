@@ -48,7 +48,7 @@ class SpamDetector
 
     /**
      * Construct
-     * @param Client|null $Client A Client instance
+     * @param \Cake\Http\Client|null $Client A Client instance
      * @uses $Client
      */
     public function __construct($Client = null)
@@ -61,7 +61,7 @@ class SpamDetector
      * @param string $name Method name
      * @param mixed $arguments Method arguments
      * @return $this
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      * @uses $data
      */
     public function __call($name, array $arguments)
@@ -104,7 +104,7 @@ class SpamDetector
     /**
      * Verifies, based on the set data, if it's a spammer
      * @return bool
-     * @throws InternalErrorException
+     * @throws \Cake\Http\Exception\InternalErrorException
      * @uses _getResponse()
      * @uses $data
      */
