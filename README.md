@@ -2,7 +2,7 @@
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
 [![Build Status](https://travis-ci.org/mirko-pagliai/cakephp-stop-spam.svg?branch=master)](https://travis-ci.org/mirko-pagliai/cakephp-stop-spam)
-[![Build status](https://ci.appveyor.com/api/projects/status/rxadqjs0blb906jq?svg=true)](https://ci.appveyor.com/project/mirko-pagliai/cakephp-entity-file-log)
+[![Build status](https://ci.appveyor.com/api/projects/status/m7f9jcvyo824xyyo?svg=true)](https://ci.appveyor.com/project/mirko-pagliai/cakephp-stop-spam)
 [![codecov](https://codecov.io/gh/mirko-pagliai/cakephp-stop-spam/branch/master/graph/badge.svg)](https://codecov.io/gh/mirko-pagliai/cakephp-stop-spam)
 
 *cakephp-stop-spam* is a CakePHP plugin that allows you to check if a username,
