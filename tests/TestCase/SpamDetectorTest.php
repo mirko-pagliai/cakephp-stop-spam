@@ -15,7 +15,7 @@ namespace StopSpam\Test\TestCase;
 use BadMethodCallException;
 use Cake\Cache\Cache;
 use Cake\Http\Exception\InternalErrorException;
-use MeTools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 use StopSpam\SpamDetector;
 
 /**
@@ -104,8 +104,8 @@ class SpamDetectorTest extends TestCase
         $this->assertTrue($result);
 
         $cache = Cache::read($cacheKey, 'StopSpam');
-        $this->assertArrayKeysEqual(['success', 'ip'], $cache);
-        $this->assertArrayKeysEqual(['frequency', 'appears', 'country', 'asn'], $cache['ip']);
+        $this->assertEquals(['success', 'ip'], array_keys($cache));
+        $this->assertEquals(['frequency', 'appears', 'country', 'asn'], array_keys($cache['ip']));
 
         //Called without data to verify
         $this->expectException(InternalErrorException::class);

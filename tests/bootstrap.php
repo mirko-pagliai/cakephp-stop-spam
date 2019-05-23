@@ -13,6 +13,8 @@
 
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
+use Cake\Routing\DispatcherFactory;
 
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
@@ -84,8 +86,16 @@ Cache::setConfig([
 
 Configure::write('Session', ['defaults' => 'php']);
 
-Configure::write('pluginsToLoad', ['StopSpam']);
+//Cache::setConfig('StopSpam', [
+//    'className' => 'File',
+//    'duration' => '+1 month',
+//    'path' => CACHE,
+//    'prefix' => 'stop_spam_',
+//]);
+
+Plugin::load('StopSpam', ['bootstrap' => true, 'path' => ROOT]);
+
+DispatcherFactory::add('Routing');
+DispatcherFactory::add('ControllerFactory');
 
 ini_set('intl.default_locale', 'en_US');
-
-$_SERVER['PHP_SELF'] = '/';

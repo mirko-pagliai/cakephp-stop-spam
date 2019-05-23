@@ -91,7 +91,8 @@ class SpamDetector
         $result = $this->getConfig('cache') ? Cache::read($cacheKey, 'StopSpam') : false;
 
         if (!$result) {
-            $result = $this->Client->get('http://api.stopforumspam.org/api', $data + ['json' => ''])->getJson();
+            $result = $this->Client->get('http://api.stopforumspam.org/api', $data + ['json' => '']);
+            $result = json_decode((string)$result->getBody(), true);
 
             if ($this->getConfig('cache')) {
                 Cache::write($cacheKey, $result, 'StopSpam');
