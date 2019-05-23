@@ -16,7 +16,7 @@ use BadMethodCallException;
 use Cake\Cache\Cache;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Client;
-use Cake\Http\Exception\InternalErrorException;
+use Cake\Network\Exception\InternalErrorException;
 
 /**
  * A spam detector
@@ -88,13 +88,13 @@ class SpamDetector
     {
         ksort($data);
         $cacheKey = md5(serialize($data));
-        $result = $this->getConfig('cache') ? Cache::read($cacheKey, 'StopSpam') : false;
+        $result = $this->config('cache') ? Cache::read($cacheKey, 'StopSpam') : false;
 
         if (!$result) {
             $result = $this->Client->get('http://api.stopforumspam.org/api', $data + ['json' => '']);
-            $result = json_decode((string)$result->getBody(), true);
+            $result = json_decode((string)$result->body(), true);
 
-            if ($this->getConfig('cache')) {
+            if ($this->config('cache')) {
                 Cache::write($cacheKey, $result, 'StopSpam');
             }
         }

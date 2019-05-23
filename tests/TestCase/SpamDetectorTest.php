@@ -14,7 +14,7 @@ namespace StopSpam\Test\TestCase;
 
 use BadMethodCallException;
 use Cake\Cache\Cache;
-use Cake\Http\Exception\InternalErrorException;
+use Cake\Network\Exception\InternalErrorException;
 use Cake\TestSuite\TestCase;
 use StopSpam\SpamDetector;
 

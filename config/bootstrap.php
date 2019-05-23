@@ -13,8 +13,8 @@
 
 use Cake\Cache\Cache;
 
-if (!Cache::getConfig('StopSpam')) {
-    Cache::setConfig('StopSpam', [
+if (!Cache::config('StopSpam')) {
+    Cache::config('StopSpam', [
         'className' => 'File',
         'duration' => '+1 month',
         'path' => CACHE,

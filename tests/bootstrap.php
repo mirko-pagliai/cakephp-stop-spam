@@ -45,6 +45,11 @@ define('UPLOADS', TMP . 'uploads' . DS);
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 require_once CORE_PATH . 'config' . DS . 'bootstrap.php';
 
+//Disables deprecation warnings for CakePHP 3.6
+if (version_compare(Configure::version(), '3.6', '>=')) {
+    error_reporting(E_ALL ^ E_USER_DEPRECATED);
+}
+
 date_default_timezone_set('UTC');
 mb_internal_encoding('UTF-8');
 
@@ -66,7 +71,7 @@ Configure::write('App', [
     ],
 ]);
 
-Cache::setConfig([
+Cache::config([
     '_cake_core_' => [
         'engine' => 'File',
         'prefix' => 'cake_core_',
@@ -86,16 +91,17 @@ Cache::setConfig([
 
 Configure::write('Session', ['defaults' => 'php']);
 
-//Cache::setConfig('StopSpam', [
-//    'className' => 'File',
-//    'duration' => '+1 month',
-//    'path' => CACHE,
-//    'prefix' => 'stop_spam_',
-//]);
-
 Plugin::load('StopSpam', ['bootstrap' => true, 'path' => ROOT]);
 
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
 
 ini_set('intl.default_locale', 'en_US');
+
+if (!class_exists('\PHPUnit_Framework_TestCase')) {
+    class_alias('\PHPUnit\Framework\TestCase', '\PHPUnit_Framework_TestCase');
+}
+
+if (!class_exists('\Cake\Http\Client')) {
+    class_alias('\Cake\Network\Http\Client', '\Cake\Http\Client');
+}
