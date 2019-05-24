@@ -138,6 +138,22 @@ class SpamDetectorTest extends TestCase
         $this->assertArrayKeysEqual(['success', 'ip'], $cache);
         $this->assertArrayKeysEqual(['value', 'frequency', 'appears', 'country', 'asn'], $cache['ip'][0]);
 
+        //Tries with a real spammer
+        $this->SpamDetector->username('spammer');
+        $this->assertFalse($this->SpamDetector->verify());
+        $this->assertSame([
+            'success' => 1,
+            'username' => [
+                [
+                    'value' => 'spammer',
+                    'lastseen' => '2019-05-22 03:13:07',
+                    'frequency' => 12,
+                    'appears' => 1,
+                    'confidence' => 72.73,
+                ],
+            ],
+        ], $this->SpamDetector->getResult());
+
         //Called without data to verify
         $this->expectException(InternalErrorException::class);
         $this->expectExceptionMessage('Method `StopSpam\SpamDetector::verify()` was called without data to verify');
