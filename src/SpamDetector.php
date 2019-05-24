@@ -20,18 +20,19 @@ use Cake\Network\Exception\InternalErrorException;
 
 /**
  * A spam detector
- * @method void email(string $email)
- * @method void ip(string $ip)
- * @method void username(string $username)
+ * @method $this email(string $email) Sets an email address to verify
+ * @method $this ip(string $ip) Sets an IP address to verify
+ * @method $this username(string $username) Sets an username to verify
  */
 class SpamDetector
 {
     use InstanceConfigTrait;
 
     /**
+     * A `Client` instance
      * @var \Cake\Http\Client
      */
-    protected $Client;
+    public $Client;
 
     /**
      * Default configuration
@@ -42,16 +43,23 @@ class SpamDetector
     ];
 
     /**
+     * Data to be verified
      * @var array
      */
     protected $data = [];
 
     /**
+     * Results of the last verification
+     * @var array
+     */
+    protected $result = [];
+
+    /**
      * Construct
-     * @param Client|null $Client A Client instance
+     * @param \Cake\Http\Client|null $Client A Client instance
      * @uses $Client
      */
-    public function __construct($Client = null)
+    public function __construct(Client $Client = null)
     {
         $this->Client = $Client ?: new Client();
     }
@@ -61,19 +69,21 @@ class SpamDetector
      * @param string $name Method name
      * @param mixed $arguments Method arguments
      * @return $this
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      * @uses $data
      */
     public function __call($name, array $arguments)
     {
+        $methodName = sprintf('%s::%s', get_class($this), $name);
         if (!in_array($name, ['email', 'ip', 'username'])) {
-            throw new BadMethodCallException(__d('stop-spam', 'Method `{0}::{1}()` does not exist', get_class($this), $name));
+            throw new BadMethodCallException(__d('stop-spam', 'Method `{0}()` does not exist', $methodName));
         }
-        if (count($arguments) !== 1) {
-            throw new BadMethodCallException(__d('stop-spam', '1 argument required for `{0}::{1}()` method, {2} arguments passed', get_class($this), $name, count($arguments)));
+        if (!$arguments) {
+            throw new BadMethodCallException(__d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName));
         }
 
-        $this->data += array_combine([$name], $arguments);
+        $existing = isset($this->data[$name]) ? $this->data[$name] : [];
+        $this->data[$name] = array_merge($existing, $arguments);
 
         return $this;
     }
@@ -103,24 +113,36 @@ class SpamDetector
     }
 
     /**
+     * Returns results of the last verification
+     * @return array
+     * @uses $result
+     */
+    public function getResult()
+    {
+        return $this->result;
+    }
+
+    /**
      * Verifies, based on the set data, if it's a spammer
-     * @return bool
-     * @throws InternalErrorException
+     * @return bool Returns `false` if certainly at least one of the parameters
+     *  has been reported as a spammer, otherwise returns `true`
+     * @throws \Cake\Http\Exception\InternalErrorException
      * @uses _getResponse()
      * @uses $data
+     * @uses $result
      */
     public function verify()
     {
         if (!$this->data) {
             throw new InternalErrorException(__d('stop-spam', 'Method `{0}()` was called without data to verify', __METHOD__));
         }
-        $result = $this->_getResponse($this->data);
+        $this->result = $this->_getResponse($this->data);
 
-        if (isset($result['error'])) {
-            throw new InternalErrorException(__d('stop-spam', 'Error from server: `{0}`', $result['error']));
+        if (isset($this->result['error'])) {
+            throw new InternalErrorException(__d('stop-spam', 'Error from server: `{0}`', $this->result['error']));
         }
         $this->data = [];
 
-        return !isset($result['success']) || $result['success'] != false;
+        return !isset($this->result['success']) || $this->result['success'] != false;
     }
 }

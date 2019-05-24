@@ -62,14 +62,45 @@ class SpamDetectorTest extends TestCase
     }
 
     /**
-     * Test for `__call()` magic method, with too many arguments
+     * Test for `__call()` magic method, missing arguments
      * @test
      */
-    public function testCallMagicMethodTooManyArguments()
+    public function testCallMagicMethodMissingArguments()
     {
         $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('1 argument required for `StopSpam\SpamDetector::username()` method, 3 arguments passed');
-        $this->SpamDetector->username('first', 'second', 'third');
+        $this->expectExceptionMessage('At least 1 argument required for `StopSpam\SpamDetector::username()` method');
+        $this->SpamDetector->username();
+    }
+
+    /**
+     * Test for `__call()` magic method, with multiple calls
+     * @test
+     */
+    public function testCallMagicMethodWithMultipleCalls()
+    {
+        $expected = [
+            'success' => 1,
+            'email' => [
+                [
+                    'value' => 'test@example.com',
+                    'frequency' => 0,
+                    'appears' => 0,
+                ],
+                [
+                    'value' => 'anothermail@example.com',
+                    'frequency' => 0,
+                    'appears' => 0,
+                ],
+            ],
+        ];
+
+        $result = $this->SpamDetector->email('test@example.com')->email('anothermail@example.com');
+        $this->assertTrue($this->SpamDetector->verify());
+        $this->assertSame($expected, $this->SpamDetector->getResult());
+
+        $result = $this->SpamDetector->email('test@example.com', 'anothermail@example.com');
+        $this->assertTrue($this->SpamDetector->verify());
+        $this->assertSame($expected, $this->SpamDetector->getResult());
     }
 
     /**
@@ -79,33 +110,33 @@ class SpamDetectorTest extends TestCase
     public function testVerify()
     {
         foreach ([
-            ['email' => 'test@example.com'],
-            ['email' => 'anothermail@example.com', 'username' => 'mirko'],
+            ['email' => ['test@example.com']],
+            ['email' => ['anothermail@example.com'], 'username' => ['mirko']],
         ] as $args) {
-            $expectedCache = [];
+            $expected = ['success' => 1];
             $cacheKey = md5(serialize($args));
             $this->assertEmpty(Cache::read($cacheKey, 'StopSpam'));
 
-            foreach ($args as $name => $value) {
-                $expectedCache[$name] = ['frequency' => 0, 'appears' => 0];
+            foreach ($args as $name => list($value)) {
+                $expected[$name] = [compact('value') + ['frequency' => 0, 'appears' => 0]];
                 $this->SpamDetector->$name($value);
             }
-            $result = $this->SpamDetector->verify();
-            $this->assertTrue($result);
+            $this->assertTrue($this->SpamDetector->verify());
+            $this->assertSame($expected, $this->SpamDetector->getResult());
 
             $cache = Cache::read($cacheKey, 'StopSpam');
-            $this->assertEquals(['success' => 1] + $expectedCache, $cache);
+            $this->assertSame($expected, $cache);
         }
 
-        $cacheKey = md5(serialize(['ip' => '8.8.8.8']));
+        $cacheKey = md5(serialize(['ip' => ['8.8.8.8']]));
         $this->assertEmpty(Cache::read($cacheKey, 'StopSpam'));
 
-        $result = $this->SpamDetector->ip('8.8.8.8')->verify();
-        $this->assertTrue($result);
+        $this->SpamDetector->ip('8.8.8.8');
+        $this->assertTrue($this->SpamDetector->verify());
 
         $cache = Cache::read($cacheKey, 'StopSpam');
         $this->assertEquals(['success', 'ip'], array_keys($cache));
-        $this->assertEquals(['frequency', 'appears', 'country', 'asn'], array_keys($cache['ip']));
+        $this->assertEquals(['value', 'frequency', 'appears', 'country', 'asn'], array_keys($cache['ip'][0]));
 
         //Called without data to verify
         $this->expectException(InternalErrorException::class);
