@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of cakephp-stop-spam.
  *
@@ -32,7 +33,7 @@ class SpamDetectorTest extends TestCase
      * Called before every test method
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -43,7 +44,7 @@ class SpamDetectorTest extends TestCase
      * Called after every test method
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -117,7 +118,7 @@ class SpamDetectorTest extends TestCase
             $cacheKey = md5(serialize($args));
             $this->assertEmpty(Cache::read($cacheKey, 'StopSpam'));
 
-            foreach ($args as $name => list($value)) {
+            foreach ($args as $name => [$value]) {
                 $expected[$name] = [compact('value') + ['frequency' => 0, 'appears' => 0]];
                 $this->SpamDetector->$name($value);
             }

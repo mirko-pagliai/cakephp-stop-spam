@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of cakephp-stop-spam.
  *
@@ -60,7 +61,7 @@ class SpamDetector
      * @param \Cake\Http\Client|null $Client A Client instance
      * @uses $Client
      */
-    public function __construct(Client $Client = null)
+    public function __construct(?Client $Client = null)
     {
         $this->Client = $Client ?: new Client();
     }
@@ -73,7 +74,7 @@ class SpamDetector
      * @throws \BadMethodCallException
      * @uses $data
      */
-    public function __call($name, array $arguments)
+    public function __call(string $name, array $arguments)
     {
         $methodName = sprintf('%s::%s', get_class($this), $name);
         if (!in_array($name, ['email', 'ip', 'username'])) {
@@ -83,7 +84,7 @@ class SpamDetector
             throw new BadMethodCallException(__d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName));
         }
 
-        $existing = isset($this->data[$name]) ? $this->data[$name] : [];
+        $existing = $this->data[$name] ?? [];
         $this->data[$name] = array_merge($existing, $arguments);
 
         return $this;
@@ -95,7 +96,7 @@ class SpamDetector
      * @return array Result
      * @uses $Client
      */
-    protected function _getResponse(array $data)
+    protected function _getResponse(array $data): array
     {
         ksort($data);
         $cacheKey = md5(serialize($data));
@@ -117,7 +118,7 @@ class SpamDetector
      * @return array
      * @uses $result
      */
-    public function getResult()
+    public function getResult(): array
     {
         return $this->result;
     }
@@ -131,7 +132,7 @@ class SpamDetector
      * @uses $data
      * @uses $result
      */
-    public function verify()
+    public function verify(): bool
     {
         if (!$this->data) {
             throw new InternalErrorException(__d('stop-spam', 'Method `{0}()` was called without data to verify', __METHOD__));

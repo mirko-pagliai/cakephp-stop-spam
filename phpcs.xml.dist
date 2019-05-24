@@ -8,6 +8,9 @@
     <rule ref="Generic.Commenting.Todo">
         <severity>0</severity>
     </rule>
+    <rule ref="Generic.Files.LineLength.TooLong">
+        <severity>0</severity>
+    </rule>
     <rule ref="Generic.PHP.NoSilencedErrors.Discouraged">
         <severity>0</severity>
     </rule>
@@ -16,6 +19,12 @@
     </rule>
     <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
         <exclude-pattern>/webroot</exclude-pattern>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference.ClassNameReferencedViaFunctionCall">
+        <severity>0</severity>
+    </rule>
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectWhitespaceAfterDeclare">
+        <severity>0</severity>
     </rule>
 
     <exclude-pattern>*.min.css</exclude-pattern>
