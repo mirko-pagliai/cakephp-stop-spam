@@ -17,6 +17,7 @@ use Cake\Cache\Cache;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Client;
 use Cake\Network\Exception\InternalErrorException;
+use Cake\Utility\Hash;
 
 /**
  * A spam detector
@@ -143,6 +144,6 @@ class SpamDetector
         }
         $this->data = [];
 
-        return !isset($this->result['success']) || $this->result['success'] != false;
+        return !Hash::check($this->result, '{s}.{n}[appears=1]');
     }
 }
