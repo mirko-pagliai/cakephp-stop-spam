@@ -22,7 +22,10 @@
     "autoload": {
         "psr-4": {
             "StopSpam\\": "src"
-        }
+        },
+        "files": [
+            "src/Core/request_detectors.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
