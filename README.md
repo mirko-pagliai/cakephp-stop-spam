@@ -17,6 +17,7 @@ even a coffee is enough! Thank you.
 
   * [Installation](#installation)
   * [How to use](#how-to-use)
+    + [The Request detector](#the-request-detector)
     + [How to configure the cache](#how-to-configure-the-cache)
   * [Versioning](#versioning)
 
@@ -74,6 +75,32 @@ $SpamDetector->email('anothermail@example.com');
 $SpamDetector->ip('8.8.8.8', '8.8.4.4');
 $result = $SpamDetector->verify();
 ```
+
+### The Request detector
+The plugin also adds the `is('spammer')` request detector. This detector checks if the user's IP address is reported as spammer.
+Wherever the server request is accessible, you can use the detector. An example:
+
+```php
+class PagesController extends AppController
+{
+    /**
+     * A "view" action for PagesController
+     */
+    public function view()
+    {
+		$isSpammer = $this->request->is('spammer');
+		
+		if ($isSpammer) {
+			throw new InternalErrorException('Ehi, you are a spammer! Get out of my site!');
+		}
+
+		// ...
+	}
+}
+```
+The detector checks if the IP address of the user client is reported as a spammer. This happens as described above. If the IP address is not reported, the detector uses the session to store the control result.
+
+This is very convenient and fast. It avoids repeating the code and also, using the session to memorize the result, it does not even use the cache.
 
 ### How to configure the cache
 This plugin uses the [HTTP Client](https://book.cakephp.org/3.0/en/core-libraries/httpclient.html)
