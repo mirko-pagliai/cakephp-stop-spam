@@ -28,11 +28,11 @@ You can install the plugin via composer:
 
 **NOTE: the latest version available requires at least CakePHP 3.7**.
 
-Instead, the [cakephp3.2](//github.com/mirko-pagliai/cakephp-stop-spam/tree/cakephp3.2)
-branch is compatible with all previous versions of CakePHP from version 3.2. 
+Instead, the [cakephp3.4](//github.com/mirko-pagliai/cakephp-stop-spam/tree/cakephp3.4)
+branch is compatible with all previous versions of CakePHP from version 3.4. 
 In this case, you can install the package as well:
 
-    $ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam:dev-cakephp3.2
+    $ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam:dev-cakephp3.4
     
 Then you have to load the plugin. For more information on how to load the plugin,
 please refer to the [Cookbook](//book.cakephp.org/3.0/en/plugins.html#loading-a-plugin).
