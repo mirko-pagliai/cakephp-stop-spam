@@ -12,7 +12,7 @@
  */
 namespace StopSpam\Test\TestCase\Core;
 
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use MeTools\TestSuite\TestCase;
 
 /**
@@ -26,7 +26,7 @@ class RequestDetectorsTest extends TestCase
      */
     public function testIsSpammer()
     {
-        $Request = $this->getMockBuilder(Request::class)
+        $Request = $this->getMockBuilder(ServerRequest::class)
             ->setMethods(null)
             ->getMock();
 
