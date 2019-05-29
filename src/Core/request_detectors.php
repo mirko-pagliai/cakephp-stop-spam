@@ -30,7 +30,7 @@ ServerRequest::addDetector('spammer', function (ServerRequest $request) {
     //  - the ip of the client is unknown;
     //  - is localhost;
     //  - the IP address has already been verified.
-    if (!$clientIp || $request->is('localhost') || $request->getSession()->read('allowed_ip')) {
+    if (!$clientIp || $request->is('localhost') || $request->session()->read('allowed_ip')) {
         return false;
     }
 
@@ -40,7 +40,7 @@ ServerRequest::addDetector('spammer', function (ServerRequest $request) {
     }
 
     //In any other case, saves the result in the session
-    $request->getSession()->write('allowed_ip', true);
+    $request->session()->write('allowed_ip', true);
 
     return false;
 });
