@@ -142,8 +142,8 @@ class SpamDetectorTest extends TestCase
         $this->SpamDetector->username('spammer');
         $this->assertFalse($this->SpamDetector->verify());
         $result = $this->SpamDetector->getResult();
-        $this->assertArrayKeysEqual(['success', 'username'], $result);
-        $this->assertArrayKeysEqual(['value', 'lastseen', 'frequency', 'appears', 'confidence'], $result['username'][0]);
+        $this->assertEquals(['success', 'username'], array_keys($result));
+        $this->assertEquals(['value', 'lastseen', 'frequency', 'appears', 'confidence'], array_keys($result['username'][0]));
         $this->assertGreaterThan(0, $result['username'][0]['frequency']);
         $this->assertGreaterThan(0, $result['username'][0]['appears']);
 

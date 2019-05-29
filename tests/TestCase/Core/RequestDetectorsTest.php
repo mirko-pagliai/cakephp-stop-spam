@@ -13,7 +13,7 @@
 namespace StopSpam\Test\TestCase\Core;
 
 use Cake\Http\ServerRequest;
-use MeTools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 
 /**
  * RequestDetectorsTest class
