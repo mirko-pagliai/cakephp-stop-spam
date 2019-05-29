@@ -18,12 +18,6 @@ matrix:
       env: COVERAGE=1
 
     - php: 7.0
-      env: CAKEPHP_VERSION="3.2.*" PHPUNIT_VERSION="^5.7"
-
-    - php: 7.0
-      env: CAKEPHP_VERSION="3.3.*" PHPUNIT_VERSION="^5.7"
-
-    - php: 7.0
       env: CAKEPHP_VERSION="3.4.*"
 
     - php: 7.0
