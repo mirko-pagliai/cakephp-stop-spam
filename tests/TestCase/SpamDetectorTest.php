@@ -137,7 +137,9 @@ class SpamDetectorTest extends TestCase
 
         $cache = Cache::read($cacheKey, 'StopSpam');
         $this->assertArrayKeysEqual(['success', 'ip'], $cache);
-        $this->assertArrayKeysEqual(['value', 'frequency', 'appears', 'country', 'asn'], $cache['ip'][0]);
+        $this->assertSame('8.8.8.8', $cache['ip'][0]['value']);
+        $this->assertSame(0, $cache['ip'][0]['frequency']);
+        $this->assertSame(0, $cache['ip'][0]['appears']);
 
         //Tries with a real spammer
         $this->SpamDetector->username('spammer');
