@@ -1,3 +1,4 @@
+
 # cakephp-stop-spam
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
@@ -18,6 +19,7 @@ even a coffee is enough! Thank you.
   * [Installation](#installation)
   * [How to use](#how-to-use)
     + [The Request detector](#the-request-detector)
+    + [How to create a validation rule](#how-to-create-a-validation-rule)
     + [How to configure the cache](#how-to-configure-the-cache)
   * [Versioning](#versioning)
 
@@ -101,6 +103,35 @@ class PagesController extends AppController
 The detector checks if the IP address of the user client is reported as a spammer. This happens as described above. If the IP address is not reported, the detector uses the session to store the control result.
 
 This is very convenient and fast. It avoids repeating the code and also, using the session to memorize the result, it does not even use the cache.
+
+### How to create a validation rule
+The plugin can also be used as a validation rule.
+Just an example:
+
+```php
+class ContactUsForm extends Form
+{
+    protected function _buildValidator(Validator $validator)
+    {
+	    //some rules for my form...
+
+        $validator->add('email', [
+            'notSpammer' => [
+                'message' => 'Sorry, this email address has been reported as a spammer!',
+                'rule' => function ($value, $context) {
+                    return (new SpamDetector())->email($value)->verify();
+                },
+            ],
+        ]);
+
+        return $validator;
+    }
+}
+```
+In this case, the validator will verify that the email address has not been reported as a spammer.
+
+For more information on how to create and use validation rules, please refer to the 
+[Cookbook](https://book.cakephp.org/3.0/en/core-libraries/validation.html#using-custom-validation-rules).
 
 ### How to configure the cache
 This plugin uses the [HTTP Client](https://book.cakephp.org/3.0/en/core-libraries/httpclient.html)
