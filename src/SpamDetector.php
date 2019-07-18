@@ -96,7 +96,7 @@ class SpamDetector
         ksort($data);
 
         return $this->getConfig('cache') ? Cache::remember(md5(serialize($data)), function () use ($data) {
-            return $this->Client->get('http://api.stopforumspam.org/api', $data + ['json' => ''])->getJson();
+            return $this->Client->get('https://api.stopforumspam.org/api', $data + ['json' => ''])->getJson();
         }, 'StopSpam') : [];
     }
 
