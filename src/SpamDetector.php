@@ -16,14 +16,14 @@ use BadMethodCallException;
 use Cake\Cache\Cache;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Client;
-use Cake\Http\Exception\InternalErrorException;
 use Cake\Utility\Hash;
+use Exception;
 
 /**
  * A spam detector
- * @method $this email(string $email) Sets an email address to verify
- * @method $this ip(string $ip) Sets an IP address to verify
- * @method $this username(string $username) Sets an username to verify
+ * @method \StopSpam\SpamDetector email(string $email) Sets an email address to verify
+ * @method \StopSpam\SpamDetector ip(string $ip) Sets an IP address to verify
+ * @method \StopSpam\SpamDetector username(string $username) Sets an username to verify
  */
 class SpamDetector
 {
@@ -76,12 +76,8 @@ class SpamDetector
     public function __call($name, array $arguments)
     {
         $methodName = sprintf('%s::%s', get_class($this), $name);
-        if (!in_array($name, ['email', 'ip', 'username'])) {
-            throw new BadMethodCallException(__d('stop-spam', 'Method `{0}()` does not exist', $methodName));
-        }
-        if (!$arguments) {
-            throw new BadMethodCallException(__d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName));
-        }
+        in_array_or_fail($name, ['email', 'ip', 'username'], __d('stop-spam', 'Method `{0}()` does not exist', $methodName), BadMethodCallException::class);
+        is_true_or_fail($arguments, __d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName), BadMethodCallException::class);
 
         $existing = isset($this->data[$name]) ? $this->data[$name] : [];
         $this->data[$name] = array_merge($existing, $arguments);
@@ -98,18 +94,10 @@ class SpamDetector
     protected function _getResponse(array $data)
     {
         ksort($data);
-        $cacheKey = md5(serialize($data));
-        $result = $this->getConfig('cache') ? Cache::read($cacheKey, 'StopSpam') : false;
 
-        if (!$result) {
-            $result = $this->Client->get('http://api.stopforumspam.org/api', $data + ['json' => ''])->getJson();
-
-            if ($this->getConfig('cache')) {
-                Cache::write($cacheKey, $result, 'StopSpam');
-            }
-        }
-
-        return $result;
+        return $this->getConfig('cache') ? Cache::remember(md5(serialize($data)), function () use ($data) {
+            return $this->Client->get('http://api.stopforumspam.org/api', $data + ['json' => ''])->getJson();
+        }, 'StopSpam') : [];
     }
 
     /**
@@ -126,20 +114,18 @@ class SpamDetector
      * Verifies, based on the set data, if it's a spammer
      * @return bool Returns `false` if certainly at least one of the parameters
      *  has been reported as a spammer, otherwise returns `true`
-     * @throws \Cake\Http\Exception\InternalErrorException
+     * @throws \Exception
      * @uses _getResponse()
      * @uses $data
      * @uses $result
      */
     public function verify()
     {
-        if (!$this->data) {
-            throw new InternalErrorException(__d('stop-spam', 'Method `{0}()` was called without data to verify', __METHOD__));
-        }
+        is_true_or_fail($this->data, __d('stop-spam', 'Method `{0}()` was called without data to verify', __METHOD__));
         $this->result = $this->_getResponse($this->data);
 
-        if (isset($this->result['error'])) {
-            throw new InternalErrorException(__d('stop-spam', 'Error from server: `{0}`', $this->result['error']));
+        if (array_key_exists('error', $this->result)) {
+            throw new Exception(__d('stop-spam', 'Error from server: `{0}`', $this->result['error']));
         }
         $this->data = [];
 
