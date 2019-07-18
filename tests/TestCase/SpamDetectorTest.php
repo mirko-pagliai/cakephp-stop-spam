@@ -14,8 +14,9 @@ namespace StopSpam\Test\TestCase;
 
 use BadMethodCallException;
 use Cake\Cache\Cache;
-use Cake\Network\Exception\InternalErrorException;
 use Cake\TestSuite\TestCase;
+use Exception;
+use MeTools\TestSuite\TestCase;
 use StopSpam\SpamDetector;
 
 /**
@@ -150,7 +151,7 @@ class SpamDetectorTest extends TestCase
         $this->assertGreaterThan(0, $result['username'][0]['appears']);
 
         //Called without data to verify
-        $this->expectException(InternalErrorException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Method `StopSpam\SpamDetector::verify()` was called without data to verify');
         $this->SpamDetector->verify();
     }
@@ -169,7 +170,7 @@ class SpamDetectorTest extends TestCase
             'error' => 'invalid ip',
         ]);
 
-        $this->expectException(InternalErrorException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Error from server: `invalid ip`');
         $SpamDetector->ip('invalidIpAddress')->verify();
     }
