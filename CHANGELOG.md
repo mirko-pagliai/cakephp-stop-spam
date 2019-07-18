@@ -1,5 +1,8 @@
 # 1.x branch
 ## 1.0 branch
+### 1.0.3
+* little fixes.
+
 ### 1.0.2
 * first stable release.
 
