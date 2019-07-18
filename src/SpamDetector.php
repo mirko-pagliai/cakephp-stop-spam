@@ -100,8 +100,7 @@ class SpamDetector
 
             return json_decode((string)$result->body(), true);
         }, 'StopSpam') : [];
-
-   }
+    }
 
     /**
      * Returns results of the last verification
