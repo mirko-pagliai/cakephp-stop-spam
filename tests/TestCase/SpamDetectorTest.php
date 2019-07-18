@@ -16,7 +16,6 @@ use BadMethodCallException;
 use Cake\Cache\Cache;
 use Cake\TestSuite\TestCase;
 use Exception;
-use MeTools\TestSuite\TestCase;
 use StopSpam\SpamDetector;
 
 /**
