@@ -84,8 +84,7 @@ class SpamDetector
             throw new BadMethodCallException(__d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName));
         }
 
-        $existing = $this->data[$name] ?? [];
-        $this->data[$name] = array_merge($existing, $arguments);
+        $this->data[$name] = array_merge($this->data[$name] ?? [], $arguments);
 
         return $this;
     }
