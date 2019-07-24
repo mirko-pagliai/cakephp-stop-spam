@@ -20,7 +20,7 @@ use StopSpam\SpamDetector;
  *
  * Example:
  * <code>
- * $this->request->isSpammer();
+ * $this->getRequest()->isSpammer();
  * </code>
  */
 ServerRequest::addDetector('spammer', function (ServerRequest $request) {
