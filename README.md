@@ -89,7 +89,7 @@ class PagesController extends AppController
      */
     public function view()
     {
-		$isSpammer = $this->request->is('spammer');
+		$isSpammer = $this->getRequest()->is('spammer');
 		
 		if ($isSpammer) {
 			throw new InternalErrorException('Ehi, you are a spammer! Get out of my site!');
