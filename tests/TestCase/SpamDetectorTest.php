@@ -128,15 +128,15 @@ class SpamDetectorTest extends TestCase
             $this->assertSame($expected, $cache);
         }
 
-        $cacheKey = md5(serialize(['ip' => ['8.8.8.8']]));
+        $cacheKey = md5(serialize(['ip' => ['8.8.4.4']]));
         $this->assertEmpty(Cache::read($cacheKey, 'StopSpam'));
 
-        $this->SpamDetector->ip('8.8.8.8');
+        $this->SpamDetector->ip('8.8.4.4');
         $this->assertTrue($this->SpamDetector->verify());
 
         $cache = Cache::read($cacheKey, 'StopSpam');
         $this->assertArrayKeysEqual(['success', 'ip'], $cache);
-        $this->assertSame('8.8.8.8', $cache['ip'][0]['value']);
+        $this->assertSame('8.8.4.4', $cache['ip'][0]['value']);
         $this->assertSame(0, $cache['ip'][0]['frequency']);
         $this->assertSame(0, $cache['ip'][0]['appears']);
 
