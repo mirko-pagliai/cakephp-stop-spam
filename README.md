@@ -15,17 +15,19 @@ even a coffee is enough! Thank you.
 
 [![Make a donation](https://www.paypalobjects.com/webstatic/mktg/logo-center/logo_paypal_carte.jpg)](//paypal.me/mirkopagliai)
 
-  * [Installation](#installation)
-  * [How to use](#how-to-use)
-    + [The Request detector](#the-request-detector)
-    + [How to create a validation rule](#how-to-create-a-validation-rule)
-    + [How to configure the cache](#how-to-configure-the-cache)
-  * [Versioning](#versioning)
+*   [Installation](#installation)
+*   [How to use](#how-to-use)
+    * [The Request detector](#the-request-detector)
+    * [How to create a validation rule](#how-to-create-a-validation-rule)
+    * [How to configure the cache](#how-to-configure-the-cache)
+*   [Versioning](#versioning)
 
 ## Installation
 You can install the plugin via composer:
 
-    $ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam
+```bash
+$ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam
+```
 
 **NOTE: the latest version available requires at least CakePHP 3.7**.
 
@@ -33,15 +35,18 @@ Instead, the [cakephp3.4](//github.com/mirko-pagliai/cakephp-stop-spam/tree/cake
 branch is compatible with all previous versions of CakePHP from version 3.4. 
 In this case, you can install the package as well:
 
-    $ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam:dev-cakephp3.4
-    
+```bash
+$ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam:dev-cakephp3.4
+```
 Then you have to load the plugin. For more information on how to load the plugin,
 please refer to the [Cookbook](//book.cakephp.org/3.0/en/plugins.html#loading-a-plugin).
 
 Simply, you can execute the shell command to enable the plugin:
+
 ```bash
 bin/cake plugin load StopSpam
 ```
+
 This would update your application's bootstrap method.
 
 ## How to use
@@ -69,6 +74,7 @@ will be throwed.
 than once, or you can pass multiple arguments.
 Example (the `email()`) method is called multiple times, while the `ip()` method
 is called with multiple arguments):
+
 ```php
 $SpamDetector = new SpamDetector();
 $SpamDetector->email('test@example.com');
@@ -99,6 +105,7 @@ class PagesController extends AppController
 	}
 }
 ```
+
 The detector checks if the IP address of the user client is reported as a spammer. This happens as described above. If the IP address is not reported, the detector uses the session to store the control result.
 
 This is very convenient and fast. It avoids repeating the code and also, using the session to memorize the result, it does not even use the cache.
@@ -127,6 +134,7 @@ class ContactUsForm extends Form
     }
 }
 ```
+
 In this case, the validator will verify that the email address has not been reported as a spammer.
 
 For more information on how to create and use validation rules, please refer to the 
@@ -140,6 +148,7 @@ reason, the plugin uses the cache (except for error responses).
 
 By default, the cache is active. You can enable or disable it using the `cache`
 option. Example:
+
 ```php
 $SpamDetector = new SpamDetector();
 //Disables the cache
@@ -154,6 +163,7 @@ $SpamDetector->setConfig('cache', true);
 If you want to use your own cache engine or if you want to use a different 
 onfiguration than the default one, then you have to configure the `StopSpam`
 cache engine **before** loading the plugin. Example:
+
 ```php
 Cache::setConfig('StopSpam, [
     'className' => 'File',
@@ -176,4 +186,4 @@ the session to mark a user as already verified.
 
 ## Versioning
 For transparency and insight into our release cycle and to maintain backward compatibility, 
-MeTools will be maintained under the [Semantic Versioning guidelines](http://semver.org).
+*cakephp-stop-spam* will be maintained under the [Semantic Versioning guidelines](http://semver.org).
