@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * This file is part of cakephp-stop-spam.
  *
@@ -10,6 +11,7 @@
  * @link        https://github.com/mirko-pagliai/cakephp-stop-spam
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
+
 use Cake\Http\ServerRequest;
 use StopSpam\SpamDetector;
 
