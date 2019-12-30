@@ -16,6 +16,8 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Routing\DispatcherFactory;
 
+ini_set('intl.default_locale', 'en_US');
+
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -96,12 +98,6 @@ Plugin::load('StopSpam', ['bootstrap' => true, 'path' => ROOT]);
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
 
-ini_set('intl.default_locale', 'en_US');
-
-if (!class_exists('\PHPUnit_Framework_TestCase')) {
-    class_alias('\PHPUnit\Framework\TestCase', '\PHPUnit_Framework_TestCase');
-}
-
-if (!class_exists('\Cake\Http\Client')) {
-    class_alias('\Cake\Network\Http\Client', '\Cake\Http\Client');
+if (function_exists('loadPHPUnitAliases')) {
+    loadPHPUnitAliases();
 }

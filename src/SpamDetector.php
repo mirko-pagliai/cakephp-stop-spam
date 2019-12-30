@@ -73,7 +73,7 @@ class SpamDetector
      * @throws \BadMethodCallException
      * @uses $data
      */
-    public function __call(string $name, array $arguments)
+    public function __call($name, array $arguments)
     {
         $methodName = sprintf('%s::%s', get_class($this), $name);
         in_array_or_fail($name, ['email', 'ip', 'username'], __d('stop-spam', 'Method `{0}()` does not exist', $methodName), BadMethodCallException::class);
@@ -90,7 +90,7 @@ class SpamDetector
      * @return array Result
      * @uses $Client
      */
-    protected function _getResponse(array $data): array
+    protected function _getResponse(array $data)
     {
         ksort($data);
 
@@ -106,7 +106,7 @@ class SpamDetector
      * @return array
      * @uses $result
      */
-    public function getResult(): array
+    public function getResult()
     {
         return $this->result;
     }
@@ -120,7 +120,7 @@ class SpamDetector
      * @uses $data
      * @uses $result
      */
-    public function verify(): bool
+    public function verify()
     {
         is_true_or_fail($this->data, __d('stop-spam', 'Method `{0}()` was called without data to verify', __METHOD__));
         $this->result = $this->_getResponse($this->data);
