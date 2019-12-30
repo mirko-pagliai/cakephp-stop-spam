@@ -10,7 +10,7 @@
 email address or ip address has been reported as a spammer using services and
 APIs offered by [stopforumspam.org](https://stopforumspam.com).
 
-Did you like this plugin? Its development requires a lot of time for me.  
+Did you like this plugin? Its development requires a lot of time for me.
 Please consider the possibility of making [a donation](//paypal.me/mirkopagliai):
 even a coffee is enough! Thank you.
 
@@ -30,17 +30,18 @@ You can install the plugin via composer:
 $ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam
 ```
 
-**NOTE: the latest version available requires at least CakePHP 3.7**.
+**NOTE: the latest version available requires at least CakePHP 4**.
 
-Instead, the [cakephp3.4](//github.com/mirko-pagliai/cakephp-stop-spam/tree/cakephp3.4)
-branch is compatible with all previous versions of CakePHP from version 3.4. 
+Instead, the [cakephp3](//github.com/mirko-pagliai/cakephp-stop-spam/tree/cakephp3)
+branch is compatible with all previous versions of CakePHP from version 3.4.
+This branch coincides with the current version of *cakephp-stop-spam*.
+
 In this case, you can install the package as well:
-
 ```bash
-$ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam:dev-cakephp3.4
+$ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam:dev-cakephp3
 ```
 Then you have to load the plugin. For more information on how to load the plugin,
-please refer to the [Cookbook](//book.cakephp.org/3.0/en/plugins.html#loading-a-plugin).
+please refer to the [Cookbook](//book.cakephp.org/4.0/en/plugins.html#loading-a-plugin).
 
 Simply, you can execute the shell command to enable the plugin:
 
@@ -51,7 +52,7 @@ bin/cake plugin load StopSpam
 This would update your application's bootstrap method.
 
 ## How to use
-After instantiating the class, you can use `email()`, `ip()` and `username()` 
+After instantiating the class, you can use `email()`, `ip()` and `username()`
 methods to specify the values to be verified and finally use the `verify()` method
 to get the result. Example:
 
@@ -97,7 +98,7 @@ class PagesController extends AppController
     public function view()
     {
 		$isSpammer = $this->getRequest()->is('spammer');
-		
+
 		if ($isSpammer) {
 			throw new InternalErrorException('Ehi, you are a spammer! Get out of my site!');
 		}
@@ -138,12 +139,12 @@ class ContactUsForm extends Form
 
 In this case, the validator will verify that the email address has not been reported as a spammer.
 
-For more information on how to create and use validation rules, please refer to the 
+For more information on how to create and use validation rules, please refer to the
 [Cookbook](https://book.cakephp.org/3.0/en/core-libraries/validation.html#using-custom-validation-rules).
 
 ### How to configure the cache
 This plugin uses the [HTTP Client](https://book.cakephp.org/3.0/en/core-libraries/httpclient.html)
-to make requests and get responses, which are inspected and processed one by one.  
+to make requests and get responses, which are inspected and processed one by one.
 This can take a lot of resources and generate a lot of network traffic. For this
 reason, the plugin uses the cache (except for error responses).
 
@@ -161,7 +162,7 @@ $SpamDetector->setConfig('cache', true);
 `StopSpam` will use the homonymous cache engine
 [defined in its bootstrap file](https://github.com/mirko-pagliai/cakephp-stop-spam/blob/master/config/bootstrap.php#L16).
 
-If you want to use your own cache engine or if you want to use a different 
+If you want to use your own cache engine or if you want to use a different
 onfiguration than the default one, then you have to configure the `StopSpam`
 cache engine **before** loading the plugin. Example:
 
@@ -174,7 +175,7 @@ Cache::setConfig('StopSpam, [
 ]);
 ```
 
-For more information on how to configure a cache engine, please refer to the 
+For more information on how to configure a cache engine, please refer to the
 [Cookbook](https://book.cakephp.org/3.0/en/core-libraries/caching.html#configuring-cache-engines).
 
 Pay particular attention to what is reported by
@@ -186,5 +187,5 @@ For this reason, it is advisable to use the cache, limit the requests and use
 the session to mark a user as already verified.
 
 ## Versioning
-For transparency and insight into our release cycle and to maintain backward compatibility, 
+For transparency and insight into our release cycle and to maintain backward compatibility,
 *cakephp-stop-spam* will be maintained under the [Semantic Versioning guidelines](http://semver.org).
