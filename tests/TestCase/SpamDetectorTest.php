@@ -32,7 +32,7 @@ class SpamDetectorTest extends TestCase
      * Called before every test method
      * @return void
      */
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -43,7 +43,7 @@ class SpamDetectorTest extends TestCase
      * Called after every test method
      * @return void
      */
-    public function tearDown(): void
+    public function tearDown()
     {
         parent::tearDown();
 
@@ -117,9 +117,11 @@ class SpamDetectorTest extends TestCase
             $cacheKey = md5(serialize($args));
             $this->assertEmpty(Cache::read($cacheKey, 'StopSpam'));
 
-            foreach ($args as $name => [$value]) {
-                $expected[$name] = [compact('value') + ['frequency' => 0, 'appears' => 0]];
-                $this->SpamDetector->$name($value);
+            foreach ($args as $name => $values) {
+                foreach ($values as $value) {
+                    $expected[$name] = [compact('value') + ['frequency' => 0, 'appears' => 0]];
+                    $this->SpamDetector->$name($value);
+                }
             }
             $this->assertTrue($this->SpamDetector->verify());
             $this->assertSame($expected, $this->SpamDetector->getResult());

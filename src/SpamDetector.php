@@ -60,7 +60,7 @@ class SpamDetector
      * @param \Cake\Http\Client|null $Client A Client instance
      * @uses $Client
      */
-    public function __construct(?Client $Client = null)
+    public function __construct($Client = null)
     {
         $this->Client = $Client ?: new Client();
     }
