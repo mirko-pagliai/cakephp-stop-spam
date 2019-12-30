@@ -11,4 +11,7 @@
     <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference.ClassNameReferencedViaFunctionCall">
         <severity>0</severity>
     </rule>
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.DeclareStrictTypesMissing">
+        <severity>0</severity>
+    </rule>
 </ruleset>
