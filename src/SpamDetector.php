@@ -79,7 +79,7 @@ class SpamDetector
         in_array_or_fail($name, ['email', 'ip', 'username'], __d('stop-spam', 'Method `{0}()` does not exist', $methodName), BadMethodCallException::class);
         is_true_or_fail($arguments, __d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName), BadMethodCallException::class);
 
-        $this->data[$name] = array_merge($this->data[$name] ?? [], $arguments);
+        $this->data[$name] = array_merge(isset($this->data[$name])? $this->data[$name] : [], $arguments);
 
         return $this;
     }
