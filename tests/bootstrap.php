@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * This file is part of cakephp-stop-spam.
  *
@@ -15,11 +16,6 @@ declare(strict_types=1);
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 
-if (!defined('DS')) {
-    define('DS', DIRECTORY_SEPARATOR);
-}
-
-// Path constants to a few helpful things.
 define('ROOT', dirname(__DIR__) . DS);
 define('VENDOR', ROOT . 'vendor' . DS);
 define('CORE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS);
@@ -35,17 +31,18 @@ define('CACHE', TMP . 'cache' . DS);
 define('LOGS', TMP . 'cakephp_log' . DS);
 define('SESSIONS', TMP . 'sessions' . DS);
 define('UPLOADS', TMP . 'uploads' . DS);
-
-@mkdir(TMP . 'tests', 0777, true);
-@mkdir(LOGS, 0777, true);
-@mkdir(CACHE, 0777, true);
-@mkdir(SESSIONS, 0777, true);
+@mkdir(TMP);
+@mkdir(TMP . 'tests');
+@mkdir(LOGS);
+@mkdir(CACHE);
+@mkdir(SESSIONS);
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 require_once CORE_PATH . 'config' . DS . 'bootstrap.php';
 
 date_default_timezone_set('UTC');
 mb_internal_encoding('UTF-8');
+ini_set('intl.default_locale', 'en_US');
 
 Configure::write('debug', true);
 Configure::write('App', [
@@ -60,10 +57,9 @@ Configure::write('App', [
     'imageBaseUrl' => 'img/',
     'jsBaseUrl' => 'js/',
     'cssBaseUrl' => 'css/',
-    'paths' => [
-        'plugins' => [APP . 'Plugin' . DS],
-    ],
 ]);
+Configure::write('Session', ['defaults' => 'php']);
+Configure::write('pluginsToLoad', ['StopSpam']);
 
 Cache::setConfig([
     '_cake_core_' => [
@@ -71,22 +67,6 @@ Cache::setConfig([
         'prefix' => 'cake_core_',
         'serialize' => true,
     ],
-    '_cake_model_' => [
-        'engine' => 'File',
-        'prefix' => 'cake_model_',
-        'serialize' => true,
-    ],
-    'default' => [
-        'engine' => 'File',
-        'prefix' => 'default_',
-        'serialize' => true,
-    ],
 ]);
-
-Configure::write('Session', ['defaults' => 'php']);
-
-Configure::write('pluginsToLoad', ['StopSpam']);
-
-ini_set('intl.default_locale', 'en_US');
 
 $_SERVER['PHP_SELF'] = '/';
