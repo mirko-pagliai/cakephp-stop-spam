@@ -140,10 +140,10 @@ class ContactUsForm extends Form
 In this case, the validator will verify that the email address has not been reported as a spammer.
 
 For more information on how to create and use validation rules, please refer to the
-[Cookbook](https://book.cakephp.org/3.0/en/core-libraries/validation.html#using-custom-validation-rules).
+[Cookbook](https://book.cakephp.org/4/en/core-libraries/validation.html#using-custom-validation-rules).
 
 ### How to configure the cache
-This plugin uses the [HTTP Client](https://book.cakephp.org/3.0/en/core-libraries/httpclient.html)
+This plugin uses the [HTTP Client](https://book.cakephp.org/4/en/core-libraries/httpclient.html)
 to make requests and get responses, which are inspected and processed one by one.
 This can take a lot of resources and generate a lot of network traffic. For this
 reason, the plugin uses the cache (except for error responses).
@@ -160,7 +160,7 @@ $SpamDetector->setConfig('cache', true);
 ```
 
 `StopSpam` will use the homonymous cache engine
-[defined in its bootstrap file](https://github.com/mirko-pagliai/cakephp-stop-spam/blob/master/config/bootstrap.php#L16).
+[defined in its bootstrap file](https://github.com/mirko-pagliai/cakephp-stop-spam/blob/master/config/bootstrap.php#L18).
 
 If you want to use your own cache engine or if you want to use a different
 onfiguration than the default one, then you have to configure the `StopSpam`
@@ -176,7 +176,7 @@ Cache::setConfig('StopSpam, [
 ```
 
 For more information on how to configure a cache engine, please refer to the
-[Cookbook](https://book.cakephp.org/3.0/en/core-libraries/caching.html#configuring-cache-engines).
+[Cookbook](https://book.cakephp.org/4/en/core-libraries/caching.html#configuring-cache-engines).
 
 Pay particular attention to what is reported by
 [stopforumspam.org](https://www.stopforumspam.com/usage) :
