@@ -84,23 +84,23 @@ class SpamDetectorTest extends TestCase
             'success' => 1,
             'email' => [
                 [
-                    'value' => 'test@example.com',
+                    'value' => 'anothermail@example.com',
                     'frequency' => 0,
                     'appears' => 0,
                 ],
                 [
-                    'value' => 'anothermail@example.com',
+                    'value' => 'test@example.com',
                     'frequency' => 0,
                     'appears' => 0,
                 ],
             ],
         ];
 
-        $result = $this->SpamDetector->email('test@example.com')->email('anothermail@example.com');
+        $this->SpamDetector->email('test@example.com')->email('anothermail@example.com');
         $this->assertTrue($this->SpamDetector->verify());
         $this->assertSame($expected, $this->SpamDetector->getResult());
 
-        $result = $this->SpamDetector->email('test@example.com', 'anothermail@example.com');
+        $this->SpamDetector->email('test@example.com', 'anothermail@example.com');
         $this->assertTrue($this->SpamDetector->verify());
         $this->assertSame($expected, $this->SpamDetector->getResult());
     }
