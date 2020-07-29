@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of cakephp-stop-spam.
  *
@@ -82,23 +83,23 @@ class SpamDetectorTest extends TestCase
             'success' => 1,
             'email' => [
                 [
-                    'value' => 'test@example.com',
+                    'value' => 'anothermail@example.com',
                     'frequency' => 0,
                     'appears' => 0,
                 ],
                 [
-                    'value' => 'anothermail@example.com',
+                    'value' => 'test@example.com',
                     'frequency' => 0,
                     'appears' => 0,
                 ],
             ],
         ];
 
-        $result = $this->SpamDetector->email('test@example.com')->email('anothermail@example.com');
+        $this->SpamDetector->email('test@example.com')->email('anothermail@example.com');
         $this->assertTrue($this->SpamDetector->verify());
         $this->assertSame($expected, $this->SpamDetector->getResult());
 
-        $result = $this->SpamDetector->email('test@example.com', 'anothermail@example.com');
+        $this->SpamDetector->email('test@example.com', 'anothermail@example.com');
         $this->assertTrue($this->SpamDetector->verify());
         $this->assertSame($expected, $this->SpamDetector->getResult());
     }
@@ -147,7 +148,7 @@ class SpamDetectorTest extends TestCase
         $this->assertFalse($this->SpamDetector->verify());
         $result = $this->SpamDetector->getResult();
         $this->assertEquals(['success', 'username'], array_keys($result));
-        $this->assertEquals(['value', 'lastseen', 'frequency', 'appears', 'confidence'], array_keys($result['username'][0]));
+        $this->assertEquals(['value', 'appears', 'frequency', 'lastseen', 'confidence'], array_keys($result['username'][0]));
         $this->assertGreaterThan(0, $result['username'][0]['frequency']);
         $this->assertGreaterThan(0, $result['username'][0]['appears']);
 
