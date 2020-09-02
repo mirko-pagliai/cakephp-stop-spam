@@ -20,6 +20,7 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Client;
 use Cake\Utility\Hash;
 use Exception;
+use Tools\Exceptionist;
 
 /**
  * A spam detector
@@ -78,8 +79,8 @@ class SpamDetector
     public function __call(string $name, array $arguments)
     {
         $methodName = sprintf('%s::%s', get_class($this), $name);
-        in_array_or_fail($name, ['email', 'ip', 'username'], __d('stop-spam', 'Method `{0}()` does not exist', $methodName), BadMethodCallException::class);
-        is_true_or_fail($arguments, __d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName), BadMethodCallException::class);
+        Exceptionist::inArray([$name, ['email', 'ip', 'username']], __d('stop-spam', 'Method `{0}()` does not exist', $methodName), BadMethodCallException::class);
+        Exceptionist::isTrue($arguments, __d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName), BadMethodCallException::class);
 
         $this->data[$name] = array_merge($this->data[$name] ?? [], $arguments);
 
@@ -122,7 +123,7 @@ class SpamDetector
      */
     public function verify(): bool
     {
-        is_true_or_fail($this->data, __d('stop-spam', 'Method `{0}()` was called without data to verify', __METHOD__));
+        Exceptionist::isTrue($this->data, __d('stop-spam', 'Method `{0}()` was called without data to verify', __METHOD__));
         $this->result = $this->_getResponse($this->data);
 
         if (array_key_exists('error', $this->result)) {
