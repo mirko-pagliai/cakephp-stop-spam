@@ -22,9 +22,9 @@ use Exception;
 
 /**
  * A spam detector
- * @method \StopSpam\SpamDetector email(string $email) Sets an email address to verify
- * @method \StopSpam\SpamDetector ip(string $ip) Sets an IP address to verify
- * @method \StopSpam\SpamDetector username(string $username) Sets an username to verify
+ * @method \StopSpam\SpamDetector email(string ...$email) Sets an email address to verify
+ * @method \StopSpam\SpamDetector ip(string ...$ip) Sets an IP address to verify
+ * @method \StopSpam\SpamDetector username(string ...$username) Sets an username to verify
  */
 class SpamDetector
 {
@@ -69,7 +69,7 @@ class SpamDetector
     /**
      * Magic method, is triggered when invoking inaccessible methods
      * @param string $name Method name
-     * @param mixed $arguments Method arguments
+     * @param array $arguments Method arguments
      * @return $this
      * @throws \BadMethodCallException
      * @uses $data
