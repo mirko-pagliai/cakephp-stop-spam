@@ -89,7 +89,7 @@ class SpamDetector
 
     /**
      * Performs a single GET request and returns result
-     * @param array $data The query data you want to send
+     * @param array<string, array> $data The query data you want to send
      * @return array Result
      * @uses $Client
      */
@@ -97,7 +97,7 @@ class SpamDetector
     {
         ksort($data);
 
-        return $this->getConfig('cache') ? Cache::remember(md5(serialize($data)), function () use ($data) {
+        return $this->getConfig('cache') ? Cache::remember(md5(serialize($data)), function () use ($data): array {
             return $this->Client->get('https://api.stopforumspam.org/api', $data + ['json' => ''])->getJson();
         }, 'StopSpam') : [];
     }

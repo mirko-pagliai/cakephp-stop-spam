@@ -26,7 +26,7 @@ use StopSpam\SpamDetector;
  * $this->getRequest()->isSpammer();
  * </code>
  */
-ServerRequest::addDetector('spammer', function (ServerRequest $request) {
+ServerRequest::addDetector('spammer', function (ServerRequest $request): bool {
     $clientIp = $request->clientIp();
 
     //Not a spammer if:
