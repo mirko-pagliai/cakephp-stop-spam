@@ -87,7 +87,7 @@ class SpamDetector
 
     /**
      * Performs a single GET request and returns result
-     * @param array $data The query data you want to send
+     * @param array<string, array> $data The query data you want to send
      * @return array Result
      * @uses $Client
      */
