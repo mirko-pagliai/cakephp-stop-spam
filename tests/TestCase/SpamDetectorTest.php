@@ -164,7 +164,7 @@ class SpamDetectorTest extends TestCase
      */
     public function testVerifyWithErrorFromServer()
     {
-        $SpamDetector = $this->getMockBuilder(SpamDetector::class)
+        $SpamDetector = @$this->getMockBuilder(SpamDetector::class)
             ->setMethods(['_getResponse'])
             ->getMock();
         $SpamDetector->method('_getResponse')->willReturn([
