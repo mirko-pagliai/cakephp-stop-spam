@@ -15,12 +15,12 @@ Please consider the possibility of making [a donation](//paypal.me/mirkopagliai)
 even a coffee is enough! Thank you.
 
 [![Make a donation](https://www.paypalobjects.com/webstatic/mktg/logo-center/logo_paypal_carte.jpg)](//paypal.me/mirkopagliai)
-
 *   [Installation](#installation)
+        + [Installation on older CakePHP and PHP versions](#installation-on-older-cakephp-and-php-versions)
 *   [How to use](#how-to-use)
-    * [The Request detector](#the-request-detector)
-    * [How to create a validation rule](#how-to-create-a-validation-rule)
-    * [How to configure the cache](#how-to-configure-the-cache)
+        + [The Request detector](#the-request-detector)
+        + [How to create a validation rule](#how-to-create-a-validation-rule)
+        + [How to configure the cache](#how-to-configure-the-cache)
 *   [Versioning](#versioning)
 
 ## Installation
@@ -30,16 +30,6 @@ You can install the plugin via composer:
 $ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam
 ```
 
-**NOTE: the latest version available requires at least CakePHP 4**.
-
-Instead, the [cakephp3](//github.com/mirko-pagliai/cakephp-stop-spam/tree/cakephp3)
-branch is compatible with all previous versions of CakePHP from version 3.4.
-This branch coincides with the current version of *cakephp-stop-spam*.
-
-In this case, you can install the package as well:
-```bash
-$ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam:dev-cakephp3
-```
 Then you have to load the plugin. For more information on how to load the plugin,
 please refer to the [Cookbook](//book.cakephp.org/4.0/en/plugins.html#loading-a-plugin).
 
@@ -50,6 +40,20 @@ bin/cake plugin load StopSpam
 ```
 
 This would update your application's bootstrap method.
+
+### Installation on older CakePHP and PHP versions
+Recent packages and the master branch require at least CakePHP 4.0 and PHP 7.2.
+Instead, the [cakephp3](//github.com/mirko-pagliai/cakephp-stop-spam/tree/cakephp3) branch
+requires at least PHP 5.6.
+
+In this case, you can install the package as well:
+```bash
+$ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam:dev-cakephp3
+```
+
+Note that the `cakephp3` branch will no longer be updated as of May 7, 2021,
+except for security patches, and it matches the
+[1.1.3](//github.com/mirko-pagliai/cakephp-stop-spam/releases/tag/1.1.3) version.
 
 ## How to use
 After instantiating the class, you can use `email()`, `ip()` and `username()`
