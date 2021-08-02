@@ -41,7 +41,7 @@ class RequestDetectorsTest extends TestCase
 
         //Using an ip address reported as a spammer
         $Request->getSession()->delete('allowed_ip');
-        $Request = $Request->withEnv('REMOTE_ADDR', '31.133.120.18');
+        $Request = $Request->withEnv('REMOTE_ADDR', '44.242.181.201');
         $this->assertTrue($Request->isSpammer());
         $this->assertNull($Request->getSession()->read('allowed_ip'));
     }
