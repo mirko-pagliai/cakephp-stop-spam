@@ -56,7 +56,7 @@ class SpamDetectorTest extends TestCase
      * Test for `__call()` magic method, with a no existing method
      * @test
      */
-    public function testCallMagicMethodNoExistingMethod()
+    public function testCallMagicMethodNoExistingMethod(): void
     {
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('Method `StopSpam\SpamDetector::noExisting()` does not exist');
@@ -67,7 +67,7 @@ class SpamDetectorTest extends TestCase
      * Test for `__call()` magic method, missing arguments
      * @test
      */
-    public function testCallMagicMethodMissingArguments()
+    public function testCallMagicMethodMissingArguments(): void
     {
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('At least 1 argument required for `StopSpam\SpamDetector::username()` method');
@@ -78,7 +78,7 @@ class SpamDetectorTest extends TestCase
      * Test for `__call()` magic method, with multiple calls
      * @test
      */
-    public function testCallMagicMethodWithMultipleCalls()
+    public function testCallMagicMethodWithMultipleCalls(): void
     {
         $expected = [
             'success' => 1,
@@ -109,7 +109,7 @@ class SpamDetectorTest extends TestCase
      * Test for `verify()` method
      * @test
      */
-    public function testVerify()
+    public function testVerify(): void
     {
         foreach ([
             ['email' => ['test@example.com']],
@@ -161,7 +161,7 @@ class SpamDetectorTest extends TestCase
      * Test for `verify()` method, with error from server
      * @test
      */
-    public function testVerifyWithErrorFromServer()
+    public function testVerifyWithErrorFromServer(): void
     {
         $SpamDetector = @$this->getMockBuilder(SpamDetector::class)
             ->setMethods(['_getResponse'])

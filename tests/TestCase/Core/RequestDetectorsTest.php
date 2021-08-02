@@ -26,7 +26,7 @@ class RequestDetectorsTest extends TestCase
      * Tests for `is('spammer')` detector
      * @test
      */
-    public function testIsSpammer()
+    public function testIsSpammer(): void
     {
         $Request = $this->getMockBuilder(ServerRequest::class)
             ->setMethods(null)

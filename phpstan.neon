@@ -24,9 +24,3 @@ parameters:
         -
             message: '#^Call to an undefined method Cake\\Http\\ServerRequest&PHPUnit\\Framework\\MockObject\\MockObject::isSpammer\(\)\.$#'
             path: tests/TestCase
-
-        -
-            message: '#has no return typehint specified\.$#'
-            path: tests/TestCase
-
-
