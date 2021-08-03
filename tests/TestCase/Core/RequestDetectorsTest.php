@@ -28,21 +28,19 @@ class RequestDetectorsTest extends TestCase
      */
     public function testIsSpammer(): void
     {
-        $Request = $this->getMockBuilder(ServerRequest::class)
-            ->setMethods(null)
-            ->getMock();
+        $Request = new ServerRequest();
 
-        $this->assertFalse($Request->isSpammer());
+        $this->assertFalse($Request->is('spammer'));
         $this->assertNull($Request->getSession()->read('allowed_ip'));
 
         $Request = $Request->withEnv('REMOTE_ADDR', '99.99.99.99');
-        $this->assertFalse($Request->isSpammer());
+        $this->assertFalse($Request->is('spammer'));
         $this->assertTrue($Request->getSession()->read('allowed_ip'));
 
         //Using an ip address reported as a spammer
         $Request->getSession()->delete('allowed_ip');
         $Request = $Request->withEnv('REMOTE_ADDR', '44.242.181.201');
-        $this->assertTrue($Request->isSpammer());
+        $this->assertTrue($Request->is('spammer'));
         $this->assertNull($Request->getSession()->read('allowed_ip'));
     }
 }

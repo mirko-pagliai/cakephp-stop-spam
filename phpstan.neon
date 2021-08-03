@@ -15,12 +15,3 @@ parameters:
 
     excludes_analyse:
         -  tests/test_app/
-
-    ignoreErrors:
-        -
-            message: '#^Call to an undefined method StopSpam\\SpamDetector::noExisting\(\)\.$#'
-            path: tests/TestCase/SpamDetectorTest.php
-
-        -
-            message: '#^Call to an undefined method Cake\\Http\\ServerRequest&PHPUnit\\Framework\\MockObject\\MockObject::isSpammer\(\)\.$#'
-            path: tests/TestCase

@@ -60,6 +60,7 @@ class SpamDetectorTest extends TestCase
     {
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('Method `StopSpam\SpamDetector::noExisting()` does not exist');
+        /** @phpstan-ignore-next-line */
         $this->SpamDetector->noExisting();
     }
 
