@@ -1,3 +1,6 @@
+includes:
+    - phpstan-baseline.neon
+
 parameters:
     level: 8
 
@@ -15,20 +18,3 @@ parameters:
 
     excludes_analyse:
         -  tests/test_app/
-
-    ignoreErrors:
-        - '#^Call to an undefined static method Tools\\Exceptionist#'
-
-        -
-            message: '#^Call to an undefined method StopSpam\\SpamDetector::noExisting\(\)\.$#'
-            path: tests/TestCase/SpamDetectorTest.php
-
-        -
-            message: '#^Call to an undefined method Cake\\Http\\ServerRequest&PHPUnit\\Framework\\MockObject\\MockObject::isSpammer\(\)\.$#'
-            path: tests/TestCase
-
-        -
-            message: '#has no return typehint specified\.$#'
-            path: tests/TestCase
-
-

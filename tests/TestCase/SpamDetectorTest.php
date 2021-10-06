@@ -16,6 +16,8 @@ namespace StopSpam\Test\TestCase;
 
 use BadMethodCallException;
 use Cake\Cache\Cache;
+use Cake\Http\Client;
+use Cake\Http\Client\Response;
 use Exception;
 use MeTools\TestSuite\TestCase;
 use StopSpam\SpamDetector;
@@ -38,7 +40,27 @@ class SpamDetectorTest extends TestCase
     {
         parent::setUp();
 
-        $this->SpamDetector = new SpamDetector();
+        $Client = $this->getMockBuilder(Client::class)
+            ->setMethods(['get'])
+            ->getMock();
+
+        $Client->expects($this->any())
+            ->method('get')
+            ->will($this->returnCallback(function (string $url, $data = []): Response {
+                //Gets the `Response` instance already saved in the test files
+                $file = TESTS . DS . 'responses' . DS . md5(serialize($data));
+                if (!file_exists($file)) {
+                    echo PHP_EOL . 'Creating file `' . $file . '`...' . PHP_EOL;
+                    $response = (new Client())->get($url, $data);
+                    file_put_contents($file, $response->getStringBody());
+
+                    return $response;
+                }
+
+                return new Response([], file_get_contents($file) ?: '');
+            }));
+
+        $this->SpamDetector = $this->SpamDetector ?: new SpamDetector($Client);
     }
 
     /**
@@ -56,29 +78,29 @@ class SpamDetectorTest extends TestCase
      * Test for `__call()` magic method, with a no existing method
      * @test
      */
-    public function testCallMagicMethodNoExistingMethod()
+    public function testCallMagicMethodNoExistingMethod(): void
     {
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('Method `StopSpam\SpamDetector::noExisting()` does not exist');
-        $this->SpamDetector->noExisting();
+        (new SpamDetector())->noExisting();
     }
 
     /**
      * Test for `__call()` magic method, missing arguments
      * @test
      */
-    public function testCallMagicMethodMissingArguments()
+    public function testCallMagicMethodMissingArguments(): void
     {
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('At least 1 argument required for `StopSpam\SpamDetector::username()` method');
-        $this->SpamDetector->username();
+        (new SpamDetector())->username();
     }
 
     /**
      * Test for `__call()` magic method, with multiple calls
      * @test
      */
-    public function testCallMagicMethodWithMultipleCalls()
+    public function testCallMagicMethodWithMultipleCalls(): void
     {
         $expected = [
             'success' => 1,
@@ -109,11 +131,11 @@ class SpamDetectorTest extends TestCase
      * Test for `verify()` method
      * @test
      */
-    public function testVerify()
+    public function testVerify(): void
     {
         foreach ([
             ['email' => ['test@example.com']],
-            ['email' => ['anothermail@example.com'], 'username' => ['mirko']],
+            ['email' => ['anothermail@example.com'], 'username' => ['myusernameforexample']],
         ] as $args) {
             $expected = ['success' => 1];
             $cacheKey = md5(serialize($args));
@@ -161,7 +183,7 @@ class SpamDetectorTest extends TestCase
      * Test for `verify()` method, with error from server
      * @test
      */
-    public function testVerifyWithErrorFromServer()
+    public function testVerifyWithErrorFromServer(): void
     {
         $SpamDetector = @$this->getMockBuilder(SpamDetector::class)
             ->setMethods(['_getResponse'])
