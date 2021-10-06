@@ -16,6 +16,8 @@ namespace StopSpam\Test\TestCase;
 
 use BadMethodCallException;
 use Cake\Cache\Cache;
+use Cake\Http\Client;
+use Cake\Http\Client\Response;
 use Exception;
 use MeTools\TestSuite\TestCase;
 use StopSpam\SpamDetector;
@@ -38,7 +40,27 @@ class SpamDetectorTest extends TestCase
     {
         parent::setUp();
 
-        $this->SpamDetector = new SpamDetector();
+        $Client = $this->getMockBuilder(Client::class)
+            ->setMethods(['get'])
+            ->getMock();
+
+        $Client->expects($this->any())
+            ->method('get')
+            ->will($this->returnCallback(function (string $url, $data = []): Response {
+                //Gets the `Response` instance already saved in the test files
+                $file = TESTS . DS . 'responses' . DS . md5(serialize($data));
+                if (!file_exists($file)) {
+                    echo PHP_EOL . 'Creating file `' . $file . '`...' . PHP_EOL;
+                    $response = (new Client())->get($url, $data);
+                    file_put_contents($file, $response->getStringBody());
+
+                    return $response;
+                }
+
+                return new Response([], file_get_contents($file) ?: '');
+            }));
+
+        $this->SpamDetector = $this->SpamDetector ?: new SpamDetector($Client);
     }
 
     /**
@@ -60,8 +82,7 @@ class SpamDetectorTest extends TestCase
     {
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('Method `StopSpam\SpamDetector::noExisting()` does not exist');
-        /** @phpstan-ignore-next-line */
-        $this->SpamDetector->noExisting();
+        (new SpamDetector())->noExisting();
     }
 
     /**
@@ -72,7 +93,7 @@ class SpamDetectorTest extends TestCase
     {
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('At least 1 argument required for `StopSpam\SpamDetector::username()` method');
-        $this->SpamDetector->username();
+        (new SpamDetector())->username();
     }
 
     /**
@@ -114,7 +135,7 @@ class SpamDetectorTest extends TestCase
     {
         foreach ([
             ['email' => ['test@example.com']],
-            ['email' => ['anothermail@example.com'], 'username' => ['mirko']],
+            ['email' => ['anothermail@example.com'], 'username' => ['myusernameforexample']],
         ] as $args) {
             $expected = ['success' => 1];
             $cacheKey = md5(serialize($args));
