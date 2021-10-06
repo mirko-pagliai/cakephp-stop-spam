@@ -2,7 +2,7 @@
 ## 1.1 branch
 ### 1.1.4
 * tests have been modified to simulate the `get` requests;
-* extensive improvement of function descriptions and tags.
+* extensive improvement of function descriptions and tags;
 * migration to github actions.
 
 ### 1.1.3
