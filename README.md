@@ -1,9 +1,9 @@
 # cakephp-stop-spam
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
-[![Build Status](https://travis-ci.org/mirko-pagliai/cakephp-stop-spam.svg?branch=master)](https://travis-ci.org/mirko-pagliai/cakephp-stop-spam)
-[![Build status](https://ci.appveyor.com/api/projects/status/m7f9jcvyo824xyyo?svg=true)](https://ci.appveyor.com/project/mirko-pagliai/cakephp-stop-spam)
+[![CI](https://github.com/mirko-pagliai/cakephp-stop-spam/actions/workflows/ci.yml/badge.svg)](https://github.com/mirko-pagliai/cakephp-stop-spam/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/mirko-pagliai/cakephp-stop-spam/branch/master/graph/badge.svg)](https://codecov.io/gh/mirko-pagliai/cakephp-stop-spam)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/10ac26f709d94aaa8e6bbb5d07d7b050)](https://www.codacy.com/gh/mirko-pagliai/cakephp-stop-spam/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mirko-pagliai/cakephp-stop-spam&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/mirko-pagliai/cakephp-stop-spam/badge)](https://www.codefactor.io/repository/github/mirko-pagliai/cakephp-stop-spam)
 
 *cakephp-stop-spam* is a CakePHP plugin that allows you to check if a username,
