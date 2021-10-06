@@ -1,6 +1,7 @@
 # 1.x branch
 ## 1.1 branch
 ### 1.1.5
+* tests have been modified to simulate the `get` requests;
 * migration to github actions.
 
 ### 1.1.4
