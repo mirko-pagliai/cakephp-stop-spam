@@ -1,0 +1,12 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method StopSpam\\\\SpamDetector\\:\\:noExisting\\(\\)\\.$#"
+			count: 1
+			path: tests/TestCase/SpamDetectorTest.php
+
+		-
+			message: "#^Ternary operator condition is always true\\.$#"
+			count: 1
+			path: tests/TestCase/SpamDetectorTest.php
+
