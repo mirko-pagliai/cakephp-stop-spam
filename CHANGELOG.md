@@ -1,5 +1,8 @@
 # 1.x branch
 ## 1.1 branch
+### 1.1.5
+* updated for `php-tools` 1.5.8.
+
 ### 1.1.4
 * tests have been modified to simulate the `get` requests;
 * extensive improvement of function descriptions and tags;
