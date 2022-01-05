@@ -13,12 +13,12 @@
     "require": {
         "php": ">=7.2",
         "cakephp/cakephp": "^4.0",
-        "mirko-pagliai/php-tools": "^1.4.1"
+        "mirko-pagliai/php-tools": "^1.5.8"
     },
     "require-dev": {
         "cakephp/cakephp-codesniffer": "^4.0",
         "mirko-pagliai/me-tools": "^2.20",
-        "phpunit/phpunit": "^8.5|^9.0"
+        "phpunit/phpunit": "^8.5.14|^9.0"
     },
     "autoload": {
         "psr-4": {

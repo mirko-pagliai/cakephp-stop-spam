@@ -79,7 +79,7 @@ class SpamDetector
     public function __call(string $name, array $arguments)
     {
         $methodName = sprintf('%s::%s', get_class($this), $name);
-        Exceptionist::inArray([$name, ['email', 'ip', 'username']], __d('stop-spam', 'Method `{0}()` does not exist', $methodName), BadMethodCallException::class);
+        Exceptionist::inArray($name, ['email', 'ip', 'username'], __d('stop-spam', 'Method `{0}()` does not exist', $methodName), BadMethodCallException::class);
         Exceptionist::isTrue($arguments, __d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName), BadMethodCallException::class);
 
         $this->data[$name] = array_merge($this->data[$name] ?? [], $arguments);
