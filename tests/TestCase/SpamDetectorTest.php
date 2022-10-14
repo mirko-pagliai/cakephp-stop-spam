@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUnhandledExceptionInspection */
 declare(strict_types=1);
 
 /**
@@ -29,7 +30,7 @@ class SpamDetectorTest extends TestCase
     /**
      * @var \StopSpam\SpamDetector
      */
-    protected SpamDetector $SpamDetector;
+    protected $SpamDetector;
 
     /**
      * Called before every test method
@@ -45,7 +46,7 @@ class SpamDetectorTest extends TestCase
 
         $Client->expects($this->any())
             ->method('get')
-            ->willReturnCallback(function (string $url, $data = []): Response {
+            ->willReturnCallback(function (string $url, array $data = []): Response {
                 //Gets the `Response` instance already saved in the test files
                 $file = TESTS . DS . 'responses' . DS . md5(serialize($data));
                 if (file_exists($file)) {
@@ -59,7 +60,7 @@ class SpamDetectorTest extends TestCase
                 return $response;
             });
 
-        if (empty($this->SpamDetector)) {
+        if (!$this->SpamDetector) {
             $this->SpamDetector = new SpamDetector($Client);
         }
     }
@@ -82,6 +83,7 @@ class SpamDetectorTest extends TestCase
     public function testCallMagicMethodNoExistingMethod(): void
     {
         $this->expectExceptionMessage('Method `StopSpam\SpamDetector::noExisting()` does not exist');
+        /** @noinspection PhpUndefinedMethodInspection */
         (new SpamDetector())->noExisting();
     }
 
@@ -185,7 +187,7 @@ class SpamDetectorTest extends TestCase
     public function testVerifyWithErrorFromServer(): void
     {
         $SpamDetector = @$this->getMockBuilder(SpamDetector::class)
-            ->setMethods(['_getResponse'])
+            ->onlyMethods(['_getResponse'])
             ->getMock();
         $SpamDetector->method('_getResponse')->willReturn([
             'success' => 0,

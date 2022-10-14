@@ -1,7 +1,8 @@
 # 1.x branch
 ## 1.1 branch
 ### 1.1.7
-* updated for `php-tools` 1.7.0.
+* updated for `php-tools` 1.7.0;
+* little code fixes.
 
 ### 1.1.6
 * added tests for PHP 8.1;

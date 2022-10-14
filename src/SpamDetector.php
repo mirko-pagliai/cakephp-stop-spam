@@ -25,7 +25,7 @@ use Tools\Exceptionist;
  * A spam detector
  * @method \StopSpam\SpamDetector email(string ...$email) Sets an email address to verify
  * @method \StopSpam\SpamDetector ip(string ...$ip) Sets an IP address to verify
- * @method \StopSpam\SpamDetector username(string ...$username) Sets an username to verify
+ * @method \StopSpam\SpamDetector username(string ...$username) Sets a username to verify
  */
 class SpamDetector
 {
