@@ -14,7 +14,6 @@ declare(strict_types=1);
  */
 namespace StopSpam;
 
-use BadMethodCallException;
 use Cake\Cache\Cache;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Client;
@@ -73,14 +72,13 @@ class SpamDetector
      * @param string $name Method name
      * @param array $arguments Method arguments
      * @return $this
-     * @throws \BadMethodCallException
-     * @uses $data
+     * @throws \Tools\Exception\NotInArrayException|\ErrorException
      */
     public function __call(string $name, array $arguments)
     {
         $methodName = sprintf('%s::%s', get_class($this), $name);
-        Exceptionist::inArray($name, ['email', 'ip', 'username'], __d('stop-spam', 'Method `{0}()` does not exist', $methodName), BadMethodCallException::class);
-        Exceptionist::isTrue($arguments, __d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName), BadMethodCallException::class);
+        Exceptionist::inArray($name, ['email', 'ip', 'username'], __d('stop-spam', 'Method `{0}()` does not exist', $methodName));
+        Exceptionist::isTrue($arguments, __d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName));
 
         $this->data[$name] = array_merge($this->data[$name] ?? [], $arguments);
 
