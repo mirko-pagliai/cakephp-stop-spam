@@ -18,7 +18,7 @@ use Cake\Cache\Cache;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Client;
 use Cake\Utility\Hash;
-use Exception;
+use ErrorException;
 use Tools\Exceptionist;
 
 /**
@@ -60,7 +60,6 @@ class SpamDetector
     /**
      * Construct
      * @param \Cake\Http\Client|null $Client A Client instance
-     * @uses $Client
      */
     public function __construct(?Client $Client = null)
     {
@@ -89,7 +88,6 @@ class SpamDetector
      * Performs a single GET request and returns result
      * @param array<string, array> $data The query data you want to send
      * @return array Result
-     * @uses $Client
      */
     protected function _getResponse(array $data): array
     {
@@ -103,7 +101,6 @@ class SpamDetector
     /**
      * Returns results of the last verification
      * @return array
-     * @uses $result
      */
     public function getResult(): array
     {
@@ -112,12 +109,8 @@ class SpamDetector
 
     /**
      * Verifies, based on the set data, if it's a spammer
-     * @return bool Returns `false` if certainly at least one of the parameters
-     *  has been reported as a spammer, otherwise returns `true`
-     * @throws \Exception
-     * @uses _getResponse()
-     * @uses $data
-     * @uses $result
+     * @return bool Returns `false` if certainly at least one of the parameters has been reported as a spammer
+     * @throws \ErrorException
      */
     public function verify(): bool
     {
@@ -125,7 +118,7 @@ class SpamDetector
         $this->result = $this->_getResponse($this->data);
 
         if (array_key_exists('error', $this->result)) {
-            throw new Exception(__d('stop-spam', 'Error from server: `{0}`', $this->result['error']));
+            throw new ErrorException(__d('stop-spam', 'Error from server: `{0}`', $this->result['error']));
         }
         $this->data = [];
 
