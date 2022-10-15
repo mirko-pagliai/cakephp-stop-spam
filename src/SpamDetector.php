@@ -14,19 +14,18 @@ declare(strict_types=1);
  */
 namespace StopSpam;
 
-use BadMethodCallException;
 use Cake\Cache\Cache;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Client;
 use Cake\Utility\Hash;
-use Exception;
+use ErrorException;
 use Tools\Exceptionist;
 
 /**
  * A spam detector
  * @method \StopSpam\SpamDetector email(string ...$email) Sets an email address to verify
  * @method \StopSpam\SpamDetector ip(string ...$ip) Sets an IP address to verify
- * @method \StopSpam\SpamDetector username(string ...$username) Sets an username to verify
+ * @method \StopSpam\SpamDetector username(string ...$username) Sets a username to verify
  */
 class SpamDetector
 {
@@ -61,7 +60,6 @@ class SpamDetector
     /**
      * Construct
      * @param \Cake\Http\Client|null $Client A Client instance
-     * @uses $Client
      */
     public function __construct(?Client $Client = null)
     {
@@ -73,14 +71,13 @@ class SpamDetector
      * @param string $name Method name
      * @param array $arguments Method arguments
      * @return $this
-     * @throws \BadMethodCallException
-     * @uses $data
+     * @throws \Tools\Exception\NotInArrayException|\ErrorException
      */
     public function __call(string $name, array $arguments)
     {
         $methodName = sprintf('%s::%s', get_class($this), $name);
-        Exceptionist::inArray($name, ['email', 'ip', 'username'], __d('stop-spam', 'Method `{0}()` does not exist', $methodName), BadMethodCallException::class);
-        Exceptionist::isTrue($arguments, __d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName), BadMethodCallException::class);
+        Exceptionist::inArray($name, ['email', 'ip', 'username'], __d('stop-spam', 'Method `{0}()` does not exist', $methodName));
+        Exceptionist::isTrue($arguments, __d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName));
 
         $this->data[$name] = array_merge($this->data[$name] ?? [], $arguments);
 
@@ -91,7 +88,6 @@ class SpamDetector
      * Performs a single GET request and returns result
      * @param array<string, array> $data The query data you want to send
      * @return array Result
-     * @uses $Client
      */
     protected function _getResponse(array $data): array
     {
@@ -105,7 +101,6 @@ class SpamDetector
     /**
      * Returns results of the last verification
      * @return array
-     * @uses $result
      */
     public function getResult(): array
     {
@@ -114,12 +109,8 @@ class SpamDetector
 
     /**
      * Verifies, based on the set data, if it's a spammer
-     * @return bool Returns `false` if certainly at least one of the parameters
-     *  has been reported as a spammer, otherwise returns `true`
-     * @throws \Exception
-     * @uses _getResponse()
-     * @uses $data
-     * @uses $result
+     * @return bool Returns `false` if certainly at least one of the parameters has been reported as a spammer
+     * @throws \ErrorException
      */
     public function verify(): bool
     {
@@ -127,7 +118,7 @@ class SpamDetector
         $this->result = $this->_getResponse($this->data);
 
         if (array_key_exists('error', $this->result)) {
-            throw new Exception(__d('stop-spam', 'Error from server: `{0}`', $this->result['error']));
+            throw new ErrorException(__d('stop-spam', 'Error from server: `{0}`', $this->result['error']));
         }
         $this->data = [];
 

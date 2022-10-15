@@ -15,7 +15,7 @@ class Application extends BaseApplication
         $this->addPlugin(StopSpam::class);
     }
 
-    public function middleware(MiddlewareQueue $middleware)
+    public function middleware(MiddlewareQueue $middleware): MiddlewareQueue
     {
         return $middleware->add(new RoutingMiddleware($this));
     }

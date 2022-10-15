@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUnhandledExceptionInspection */
 declare(strict_types=1);
 
 /**
@@ -14,7 +15,6 @@ declare(strict_types=1);
  */
 namespace StopSpam\Test\TestCase;
 
-use BadMethodCallException;
 use Cake\Cache\Cache;
 use Cake\Http\Client;
 use Cake\Http\Client\Response;
@@ -41,26 +41,28 @@ class SpamDetectorTest extends TestCase
         parent::setUp();
 
         $Client = $this->getMockBuilder(Client::class)
-            ->setMethods(['get'])
+            ->onlyMethods(['get'])
             ->getMock();
 
         $Client->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(function (string $url, $data = []): Response {
+            ->willReturnCallback(function (string $url, array $data = []): Response {
                 //Gets the `Response` instance already saved in the test files
                 $file = TESTS . DS . 'responses' . DS . md5(serialize($data));
-                if (!file_exists($file)) {
-                    echo PHP_EOL . 'Creating file `' . $file . '`...' . PHP_EOL;
-                    $response = (new Client())->get($url, $data);
-                    file_put_contents($file, $response->getStringBody());
-
-                    return $response;
+                if (file_exists($file)) {
+                    return new Response([], file_get_contents($file) ?: '');
                 }
 
-                return new Response([], file_get_contents($file) ?: '');
-            }));
+                echo PHP_EOL . 'Creating file `' . $file . '`...' . PHP_EOL;
+                $response = (new Client())->get($url, $data);
+                file_put_contents($file, $response->getStringBody());
 
-        $this->SpamDetector = $this->SpamDetector ?: new SpamDetector($Client);
+                return $response;
+            });
+
+        if (!$this->SpamDetector) {
+            $this->SpamDetector = new SpamDetector($Client);
+        }
     }
 
     /**
@@ -80,8 +82,8 @@ class SpamDetectorTest extends TestCase
      */
     public function testCallMagicMethodNoExistingMethod(): void
     {
-        $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('Method `StopSpam\SpamDetector::noExisting()` does not exist');
+        /** @noinspection PhpUndefinedMethodInspection */
         (new SpamDetector())->noExisting();
     }
 
@@ -91,7 +93,6 @@ class SpamDetectorTest extends TestCase
      */
     public function testCallMagicMethodMissingArguments(): void
     {
-        $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('At least 1 argument required for `StopSpam\SpamDetector::username()` method');
         (new SpamDetector())->username();
     }
@@ -186,7 +187,7 @@ class SpamDetectorTest extends TestCase
     public function testVerifyWithErrorFromServer(): void
     {
         $SpamDetector = @$this->getMockBuilder(SpamDetector::class)
-            ->setMethods(['_getResponse'])
+            ->onlyMethods(['_getResponse'])
             ->getMock();
         $SpamDetector->method('_getResponse')->willReturn([
             'success' => 0,

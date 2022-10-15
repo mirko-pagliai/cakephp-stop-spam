@@ -6,7 +6,7 @@ parameters:
 			path: tests/TestCase/SpamDetectorTest.php
 
 		-
-			message: "#^Ternary operator condition is always true\\.$#"
+			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: tests/TestCase/SpamDetectorTest.php
 
