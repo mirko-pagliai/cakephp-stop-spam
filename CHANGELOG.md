@@ -1,7 +1,8 @@
 # 1.x branch
 ## 1.1 branch
 ### 1.1.8
-* no longer uses the `Exceptionist` class.
+* no longer uses the `Exceptionist` class;
+* added tests for PHP 8.2.
 
 ### 1.1.7
 * updated for `php-tools` 1.7.0;
