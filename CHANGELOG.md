@@ -3,6 +3,7 @@
 ### 1.1.8
 * no longer requires the `me-tools` package;
 * no longer uses the `Exceptionist` class;
+* updated for `php-tools` 1.7.1;
 * added tests for PHP 8.2.
 
 ### 1.1.7
