@@ -31,7 +31,6 @@ class SpamDetector
     use InstanceConfigTrait;
 
     /**
-     * A `Client` instance
      * @var \Cake\Http\Client
      */
     public $Client;
@@ -89,7 +88,7 @@ class SpamDetector
 
     /**
      * Performs a single GET request and returns result
-     * @param array<string, array> $data The query data you want to send
+     * @param array $data The query data you want to send
      * @return array Result
      */
     protected function _getResponse(array $data): array
