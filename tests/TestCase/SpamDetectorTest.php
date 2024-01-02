@@ -18,7 +18,6 @@ namespace StopSpam\Test\TestCase;
 use Cake\Cache\Cache;
 use Cake\Http\Client;
 use Cake\Http\Client\Response;
-use Exception;
 use MeTools\TestSuite\TestCase;
 use StopSpam\SpamDetector;
 
@@ -33,17 +32,13 @@ class SpamDetectorTest extends TestCase
     protected $SpamDetector;
 
     /**
-     * Called before every test method
-     * @return void
+     * @inheritDoc
      */
     public function setUp(): void
     {
         parent::setUp();
 
-        $Client = $this->getMockBuilder(Client::class)
-            ->onlyMethods(['get'])
-            ->getMock();
-
+        $Client = $this->createPartialMock(Client::class, ['get']);
         $Client->expects($this->any())
             ->method('get')
             ->willReturnCallback(function (string $url, array $data = []): Response {
@@ -66,8 +61,7 @@ class SpamDetectorTest extends TestCase
     }
 
     /**
-     * Called after every test method
-     * @return void
+     * @inheritDoc
      */
     public function tearDown(): void
     {
@@ -77,8 +71,8 @@ class SpamDetectorTest extends TestCase
     }
 
     /**
-     * Test for `__call()` magic method, with a no existing method
      * @test
+     * @uses \StopSpam\SpamDetector::__call()
      */
     public function testCallMagicMethodNoExistingMethod(): void
     {
@@ -88,8 +82,8 @@ class SpamDetectorTest extends TestCase
     }
 
     /**
-     * Test for `__call()` magic method, missing arguments
      * @test
+     * @uses \StopSpam\SpamDetector::__call()
      */
     public function testCallMagicMethodMissingArguments(): void
     {
@@ -98,8 +92,8 @@ class SpamDetectorTest extends TestCase
     }
 
     /**
-     * Test for `__call()` magic method, with multiple calls
      * @test
+     * @uses \StopSpam\SpamDetector::__call()
      */
     public function testCallMagicMethodWithMultipleCalls(): void
     {
@@ -129,8 +123,8 @@ class SpamDetectorTest extends TestCase
     }
 
     /**
-     * Test for `verify()` method
      * @test
+     * @uses \StopSpam\SpamDetector::verify()
      */
     public function testVerify(): void
     {
@@ -159,6 +153,7 @@ class SpamDetectorTest extends TestCase
         $this->SpamDetector->ip('8.8.4.4');
         $this->assertTrue($this->SpamDetector->verify());
 
+        /** @var array $cache */
         $cache = Cache::read($cacheKey, 'StopSpam');
         $this->assertArrayKeysEqual(['success', 'ip'], $cache);
         $this->assertSame('8.8.4.4', $cache['ip'][0]['value']);
@@ -175,26 +170,22 @@ class SpamDetectorTest extends TestCase
         $this->assertGreaterThan(0, $result['username'][0]['appears']);
 
         //Called without data to verify
-        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Method `StopSpam\SpamDetector::verify()` was called without data to verify');
         $this->SpamDetector->verify();
     }
 
     /**
-     * Test for `verify()` method, with error from server
      * @test
+     * @uses \StopSpam\SpamDetector::verify()
      */
     public function testVerifyWithErrorFromServer(): void
     {
-        $SpamDetector = @$this->getMockBuilder(SpamDetector::class)
-            ->onlyMethods(['_getResponse'])
-            ->getMock();
+        $SpamDetector = $this->createPartialMock(SpamDetector::class, ['_getResponse']);
         $SpamDetector->method('_getResponse')->willReturn([
             'success' => 0,
             'error' => 'invalid ip',
         ]);
 
-        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Error from server: `invalid ip`');
         $SpamDetector->ip('invalidIpAddress')->verify();
     }
