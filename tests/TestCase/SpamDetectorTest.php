@@ -18,7 +18,7 @@ namespace StopSpam\Test\TestCase;
 use Cake\Cache\Cache;
 use Cake\Http\Client;
 use Cake\Http\Client\Response;
-use MeTools\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 use StopSpam\SpamDetector;
 
 /**
@@ -155,7 +155,7 @@ class SpamDetectorTest extends TestCase
 
         /** @var array $cache */
         $cache = Cache::read($cacheKey, 'StopSpam');
-        $this->assertArrayKeysEqual(['success', 'ip'], $cache);
+        $this->assertEquals(['success', 'ip'], array_keys($cache));
         $this->assertSame('8.8.4.4', $cache['ip'][0]['value']);
         $this->assertSame(0, $cache['ip'][0]['frequency']);
         $this->assertSame(0, $cache['ip'][0]['appears']);
@@ -164,8 +164,8 @@ class SpamDetectorTest extends TestCase
         $this->SpamDetector->username('spammer');
         $this->assertFalse($this->SpamDetector->verify());
         $result = $this->SpamDetector->getResult();
-        $this->assertArrayKeysEqual(['success', 'username'], $result);
-        $this->assertArrayKeysEqual(['value', 'lastseen', 'frequency', 'appears', 'confidence'], $result['username'][0]);
+        $this->assertEquals(['success', 'username'], array_keys($result));
+        $this->assertEquals(['value', 'appears', 'frequency', 'lastseen', 'confidence'], array_keys($result['username'][0]));
         $this->assertGreaterThan(0, $result['username'][0]['frequency']);
         $this->assertGreaterThan(0, $result['username'][0]['appears']);
 
