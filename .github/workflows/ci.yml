@@ -35,7 +35,7 @@ jobs:
           run: composer validate --strict
 
         - name: Setup PHP
-          uses: shivammathur/setup-php@v3
+          uses: shivammathur/setup-php@v2
           with:
             php-version: ${{ matrix.php-version }}
             extensions: mbstring, intl, pdo_${{ matrix.db-type }}
@@ -80,7 +80,7 @@ jobs:
         - uses: actions/checkout@v3
 
         - name: Setup PHP
-          uses: shivammathur/setup-php@v3
+          uses: shivammathur/setup-php@v2
           with:
             php-version: '8.0'
             coverage: none
@@ -120,7 +120,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Setup PHP
-      uses: shivammathur/setup-php@v3
+      uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ env.PHP_VERSION }}
         extensions: ${{ env.EXTENSIONS }}
