@@ -26,6 +26,7 @@
             "StopSpam\\": "src"
         },
         "files": [
+            "libs/phpuri.php",
             "src/Core/request_detectors.php"
         ]
     },
