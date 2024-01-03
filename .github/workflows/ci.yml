@@ -35,14 +35,14 @@ jobs:
           run: composer validate --strict
 
         - name: Setup PHP
-          uses: shivammathur/setup-php@v2
+          uses: shivammathur/setup-php@v3
           with:
             php-version: ${{ matrix.php-version }}
             extensions: mbstring, intl, pdo_${{ matrix.db-type }}
 
         - name: Cache Composer packages
           id: composer-cache
-          uses: actions/cache@v2
+          uses: actions/cache@v3
           with:
             path: vendor
             key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -80,7 +80,7 @@ jobs:
         - uses: actions/checkout@v3
 
         - name: Setup PHP
-          uses: shivammathur/setup-php@v2
+          uses: shivammathur/setup-php@v3
           with:
             php-version: '8.0'
             coverage: none
@@ -120,7 +120,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Setup PHP
-      uses: shivammathur/setup-php@v2
+      uses: shivammathur/setup-php@v3
       with:
         php-version: ${{ env.PHP_VERSION }}
         extensions: ${{ env.EXTENSIONS }}
@@ -129,7 +129,7 @@ jobs:
 
     - name: Cache Composer packages
       id: composer-cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: vendor
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
