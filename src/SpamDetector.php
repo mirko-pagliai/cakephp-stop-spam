@@ -18,8 +18,7 @@ use Cake\Cache\Cache;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Client;
 use Cake\Utility\Hash;
-use ErrorException;
-use Tools\Exceptionist;
+use LogicException;
 
 /**
  * A spam detector
@@ -32,7 +31,6 @@ class SpamDetector
     use InstanceConfigTrait;
 
     /**
-     * A `Client` instance
      * @var \Cake\Http\Client
      */
     public $Client;
@@ -71,13 +69,17 @@ class SpamDetector
      * @param string $name Method name
      * @param array $arguments Method arguments
      * @return $this
-     * @throws \Tools\Exception\NotInArrayException|\ErrorException
+     * @throw \LogicException
      */
     public function __call(string $name, array $arguments)
     {
         $methodName = sprintf('%s::%s', get_class($this), $name);
-        Exceptionist::inArray($name, ['email', 'ip', 'username'], __d('stop-spam', 'Method `{0}()` does not exist', $methodName));
-        Exceptionist::isTrue($arguments, __d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName));
+        if (!in_array($name, ['email', 'ip', 'username'])) {
+            throw new LogicException(__d('stop-spam', 'Method `{0}()` does not exist', $methodName));
+        }
+        if (!$arguments) {
+            throw new LogicException(__d('stop-spam', 'At least 1 argument required for `{0}()` method', $methodName));
+        }
 
         $this->data[$name] = array_merge($this->data[$name] ?? [], $arguments);
 
@@ -86,7 +88,7 @@ class SpamDetector
 
     /**
      * Performs a single GET request and returns result
-     * @param array<string, array> $data The query data you want to send
+     * @param array $data The query data you want to send
      * @return array Result
      */
     protected function _getResponse(array $data): array
@@ -110,15 +112,17 @@ class SpamDetector
     /**
      * Verifies, based on the set data, if it's a spammer
      * @return bool Returns `false` if certainly at least one of the parameters has been reported as a spammer
-     * @throws \ErrorException
+     * @throws \LogicException
      */
     public function verify(): bool
     {
-        Exceptionist::isTrue($this->data, __d('stop-spam', 'Method `{0}()` was called without data to verify', __METHOD__));
+        if (!$this->data) {
+            throw new LogicException(__d('stop-spam', 'Method `{0}()` was called without data to verify', __METHOD__));
+        }
         $this->result = $this->_getResponse($this->data);
 
         if (array_key_exists('error', $this->result)) {
-            throw new ErrorException(__d('stop-spam', 'Error from server: `{0}`', $this->result['error']));
+            throw new LogicException(__d('stop-spam', 'Error from server: `{0}`', $this->result['error']));
         }
         $this->data = [];
 

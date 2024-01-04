@@ -1,5 +1,12 @@
 # 1.x branch
 ## 1.1 branch
+### 1.1.8
+* no longer requires the `me-tools` package;
+* no longer uses the `Exceptionist` class;
+* updated for `php-tools` 1.7.1;
+* provides its own copy of the `phpUri` library, temporarily;
+* added tests for PHP 8.2.
+
 ### 1.1.7
 * updated for `php-tools` 1.7.0;
 * little code fixes.

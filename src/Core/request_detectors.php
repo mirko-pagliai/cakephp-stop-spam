@@ -26,14 +26,14 @@ use StopSpam\SpamDetector;
  * $this->getRequest()->isSpammer();
  * </code>
  */
-ServerRequest::addDetector('spammer', function (ServerRequest $request): bool {
-    $clientIp = $request->clientIp();
+ServerRequest::addDetector('spammer', function (ServerRequest $Request): bool {
+    $clientIp = $Request->clientIp();
 
     //Not a spammer if:
     //  - the ip of the client is unknown;
     //  - is localhost;
     //  - the IP address has already been verified.
-    if (!$clientIp || $request->is('localhost') || $request->getSession()->read('allowed_ip')) {
+    if (!$clientIp || in_array($clientIp, ['127.0.0.1', '::1']) || $Request->getSession()->read('allowed_ip')) {
         return false;
     }
 
@@ -43,7 +43,7 @@ ServerRequest::addDetector('spammer', function (ServerRequest $request): bool {
     }
 
     //In any other case, saves the result in the session
-    $request->getSession()->write('allowed_ip', true);
+    $Request->getSession()->write('allowed_ip', true);
 
     return false;
 });

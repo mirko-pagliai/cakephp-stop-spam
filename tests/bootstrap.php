@@ -59,7 +59,6 @@ Configure::write('App', [
     'cssBaseUrl' => 'css/',
 ]);
 Configure::write('Session', ['defaults' => 'php']);
-Configure::write('pluginsToLoad', ['StopSpam']);
 
 Cache::setConfig([
     '_cake_core_' => [
@@ -68,5 +67,7 @@ Cache::setConfig([
         'serialize' => true,
     ],
 ]);
+
+require_once ROOT . 'config/bootstrap.php';
 
 $_SERVER['PHP_SELF'] = '/';

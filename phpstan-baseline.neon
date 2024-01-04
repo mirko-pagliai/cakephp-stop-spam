@@ -5,8 +5,3 @@ parameters:
 			count: 1
 			path: tests/TestCase/SpamDetectorTest.php
 
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: tests/TestCase/SpamDetectorTest.php
-
