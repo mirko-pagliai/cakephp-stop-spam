@@ -19,6 +19,7 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Client;
 use Cake\Utility\Hash;
 use LogicException;
+use function Cake\I18n\__d;
 
 /**
  * A spam detector
@@ -33,13 +34,13 @@ class SpamDetector
     /**
      * @var \Cake\Http\Client
      */
-    public $Client;
+    public Client $Client;
 
     /**
      * Default configuration
      * @var array
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'cache' => true,
     ];
 
@@ -47,13 +48,13 @@ class SpamDetector
      * Data to be verified
      * @var array
      */
-    protected $data = [];
+    protected array $data = [];
 
     /**
      * Results of the last verification
      * @var array
      */
-    protected $result = [];
+    protected array $result = [];
 
     /**
      * Construct
