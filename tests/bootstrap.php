@@ -17,25 +17,20 @@ use Cake\Cache\Cache;
 use Cake\Core\Configure;
 
 define('ROOT', dirname(__DIR__) . DS);
-define('VENDOR', ROOT . 'vendor' . DS);
-define('CORE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS);
-define('CAKE', CORE_PATH . 'src' . DS);
-define('TESTS', ROOT . 'tests');
-define('APP', ROOT . 'tests' . DS . 'test_app' . DS);
-define('APP_DIR', 'test_app');
-define('WEBROOT_DIR', 'webroot');
-define('WWW_ROOT', APP . 'webroot' . DS);
+const CORE_PATH = ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS;
+const TESTS = ROOT . 'tests';
+const APP = ROOT . 'tests' . DS . 'test_app' . DS;
+const APP_DIR = 'test_app';
+const WWW_ROOT = APP . 'webroot' . DS;
 define('TMP', sys_get_temp_dir() . DS . 'cakephp-stop-spam' . DS);
-define('CONFIG', APP . 'config' . DS);
-define('CACHE', TMP . 'cache' . DS);
-define('LOGS', TMP . 'cakephp_log' . DS);
-define('SESSIONS', TMP . 'sessions' . DS);
-define('UPLOADS', TMP . 'uploads' . DS);
-@mkdir(TMP);
-@mkdir(TMP . 'tests');
-@mkdir(LOGS);
-@mkdir(CACHE);
-@mkdir(SESSIONS);
+const CACHE = TMP . 'cache' . DS;
+const LOGS = TMP . 'cakephp_log' . DS;
+
+foreach ([TMP . 'tests', LOGS, CACHE] as $dir) {
+    if (!file_exists($dir)) {
+        mkdir($dir, 0777, true);
+    }
+}
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 require_once CORE_PATH . 'config' . DS . 'bootstrap.php';

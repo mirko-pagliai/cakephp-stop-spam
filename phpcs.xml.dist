@@ -3,8 +3,6 @@
     <arg value="p"/>
     <file>.</file>
 
-    <exclude-pattern>libs/phpuri\.php</exclude-pattern>
-
     <rule ref="./vendor/mirko-pagliai/php-tools/sniffer-ruleset.xml"/>
 
     <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference.ClassNameReferencedViaFunctionCall">
