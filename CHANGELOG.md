@@ -1,7 +1,7 @@
 # 1.x branch
 ## 1.2 branch
 ### 1.2.0
-* requires at least PHP 8.1.
+* requires at least PHP 8.1, CakePHP 5.0 and PHPUnit 10.
 
 ## 1.1 branch
 ### 1.1.8

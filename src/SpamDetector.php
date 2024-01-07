@@ -19,6 +19,7 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Client;
 use Cake\Utility\Hash;
 use LogicException;
+use function Cake\I18n\__d;
 
 /**
  * A spam detector
