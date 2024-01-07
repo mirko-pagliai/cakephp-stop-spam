@@ -42,9 +42,28 @@ bin/cake plugin load StopSpam
 This would update your application's bootstrap method.
 
 ### Installation on older CakePHP and PHP versions
-Recent packages and the master branch require at least CakePHP 4.0 and PHP 7.2.
-Instead, the [cakephp3](//github.com/mirko-pagliai/cakephp-stop-spam/tree/cakephp3) branch
-requires at least PHP 5.6.
+Recent packages and the master branch require at least CakePHP 5.0 and PHP 8.1
+and the current development of the code is based on these and later versions of
+CakePHP and PHP.
+However, there are still some branches compatible with previous versions of
+CakePHP and PHP.
+
+#### For PHP 7.2 and CakePHP 4 or later
+The [php7.2](//github.com/mirko-pagliai/cakephp-stop-spam/tree/php7.2) branch
+requires at least PHP `>=7.2` and CakePHP `^4.0`.
+
+In this case, you can install the package as well:
+```bash
+$ composer require --prefer-dist mirko-pagliai/cakephp-stop-spam:dev-php7.2
+```
+
+Note that the `php7.2` branch will no longer be updated as of January 7, 2024,
+except for security patches, and it matches the
+[1.1.8](//github.com/mirko-pagliai/cakephp-stop-spam/releases/tag/1.1.8) version.
+
+#### For PHP 5.6 and CakePHP 3 or later
+The [cakephp3](//github.com/mirko-pagliai/cakephp-stop-spam/tree/cakephp3) branch
+requires at least PHP 5.6 and CakePHP 3.
 
 In this case, you can install the package as well:
 ```bash
