@@ -15,13 +15,18 @@ Please consider the possibility of making [a donation](//paypal.me/mirkopagliai)
 even a coffee is enough! Thank you.
 
 [![Make a donation](https://www.paypalobjects.com/webstatic/mktg/logo-center/logo_paypal_carte.jpg)](//paypal.me/mirkopagliai)
-*   [Installation](#installation)
-        + [Installation on older CakePHP and PHP versions](#installation-on-older-cakephp-and-php-versions)
-*   [How to use](#how-to-use)
-        + [The Request detector](#the-request-detector)
-        + [How to create a validation rule](#how-to-create-a-validation-rule)
-        + [How to configure the cache](#how-to-configure-the-cache)
-*   [Versioning](#versioning)
+
+***
+
+* [Installation](#installation)
+    + [Installation on older CakePHP and PHP versions](#installation-on-older-cakephp-and-php-versions)
+        - [For PHP 7.2 and CakePHP 4 or later](#for-php-72-and-cakephp-4-or-later)
+        - [For PHP 5.6 and CakePHP 3 or later](#for-php-56-and-cakephp-3-or-later)
+* [How to use](#how-to-use)
+    + [The Request detector](#the-request-detector)
+    + [How to create a validation rule](#how-to-create-a-validation-rule)
+    + [How to configure the cache](#how-to-configure-the-cache)
+* [Versioning](#versioning)
 
 ## Installation
 You can install the plugin via composer:
