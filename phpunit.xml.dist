@@ -7,16 +7,15 @@
   bootstrap="./tests/bootstrap.php"
   xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
-    <!-- configure code coverage -->
-    <filter>
-      <whitelist>
-        <directory suffix=".php">./src/</directory>
-      </whitelist>
-    </filter>
+  <coverage>
+    <include>
+      <directory suffix=".php">./src/</directory>
+    </include>
+  </coverage>
 
-    <testsuites>
-      <testsuite name="cakephp-stop-spam Test Cases">
-        <directory>./tests/TestCase</directory>
-      </testsuite>
-    </testsuites>
+  <testsuites>
+    <testsuite name="cakephp-stop-spam Test Cases">
+      <directory>./tests/TestCase</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>
