@@ -1,5 +1,8 @@
 # 1.x branch
 ## 1.2 branch
+### 1.2.1
+* updated for `php-tools` 1.10.0.
+
 ### 1.2.0
 * requires at least PHP 8.1, CakePHP 5.0 and PHPUnit 10.
 
